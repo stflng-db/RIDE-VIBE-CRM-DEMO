@@ -1,0 +1,1491 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ride &amp; Vibe HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: asphalt sidebar pinned left with a dashed road line; light working surface; rows tinted by booking status */
+:root{
+  --bg:#F2F3F6; --surface:#FFFFFF; --surface-2:#F7F8FA; --fg:#1B1E29; --muted:#666C7D; --line:#E2E4EB;
+  --asphalt:#171A24; --asphalt-2:#222634; --side-fg:#C9CCD6; --road:#FFC53D;
+  --ink-btn:#1B1E29; --ink-btn-fg:#FFFFFF;
+  --f-display:"Unbounded","Onest",system-ui,sans-serif; --f-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  /* booking status: tint (row) + strong (dot/text) */
+  --st-new-bg:transparent; --st-new:#8A90A0;
+  --st-talk-bg:#FFF3BF; --st-talk:#B88700;
+  --st-deposit-bg:#DDEBFF; --st-deposit:#2A6FD6;
+  --st-paid-bg:#D8F3DF; --st-paid:#1B8A42;
+  --st-lost-bg:#E9EAEE; --st-lost:#7D828F;
+  --st-special-bg:#ECDFFF; --st-special:#7337D6;
+  --st-refund-bg:#FFDDDC; --st-refund:#D12C2C;
+  /* tour colors */
+  --t-west:#EE7414; --t-west-bg:#FFEBDA; --t-miami:#DE3F92; --t-miami-bg:#FFE1F0; --t-east:#2A86CF; --t-east-bg:#DFF0FC;
+  --t-nyc:#12927E; --t-nyc-bg:#D8F4EE; --t-dc:#5B61D1; --t-dc-bg:#E4E5FB;
+  --t-westx:#B8480C; --t-westx-bg:#FBE3D3; --t-eastx:#1F4E9E; --t-eastx-bg:#DCE6F7; --t-niagara:#8A6D00; --t-niagara-bg:#F5ECC9;
+  --tg:#2AABEE;
+  --shadow:0 1px 2px rgba(20,24,36,.06),0 8px 24px rgba(20,24,36,.06);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101219; --surface:#181B25; --surface-2:#1E2230; --fg:#E6E8EF; --muted:#9A9FB0; --line:#2A2F3E;
+  --asphalt:#0B0D13; --asphalt-2:#171A24; --side-fg:#B9BDC9; --road:#FFC53D; --ink-btn:#E6E8EF; --ink-btn-fg:#12141B;
+  --st-new-bg:transparent; --st-new:#8A90A0; --st-talk-bg:#3A3312; --st-talk:#F2CB47; --st-deposit-bg:#16294A; --st-deposit:#6EA8FF;
+  --st-paid-bg:#15331F; --st-paid:#5BD088; --st-lost-bg:#262A35; --st-lost:#8C91A0; --st-special-bg:#2C1D4A; --st-special:#B48CFF; --st-refund-bg:#43191B; --st-refund:#FF7A74;
+  --t-west:#FF9A4A; --t-west-bg:#3A2616; --t-miami:#FF72B6; --t-miami-bg:#3B1A2C; --t-east:#5DB4F5; --t-east-bg:#16293B; --t-nyc:#3FD1B7; --t-nyc-bg:#12302B; --t-dc:#9197FF; --t-dc-bg:#23244A; --t-westx:#FF8A5C; --t-westx-bg:#3E2019; --t-eastx:#8FB3FF; --t-eastx-bg:#1B2540; --t-niagara:#E8C85A; --t-niagara-bg:#352E12;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#101219; --surface:#181B25; --surface-2:#1E2230; --fg:#E6E8EF; --muted:#9A9FB0; --line:#2A2F3E;
+  --asphalt:#0B0D13; --asphalt-2:#171A24; --side-fg:#B9BDC9; --road:#FFC53D; --ink-btn:#E6E8EF; --ink-btn-fg:#12141B;
+  --st-new-bg:transparent; --st-new:#8A90A0; --st-talk-bg:#3A3312; --st-talk:#F2CB47; --st-deposit-bg:#16294A; --st-deposit:#6EA8FF;
+  --st-paid-bg:#15331F; --st-paid:#5BD088; --st-lost-bg:#262A35; --st-lost:#8C91A0; --st-special-bg:#2C1D4A; --st-special:#B48CFF; --st-refund-bg:#43191B; --st-refund:#FF7A74;
+  --t-west:#FF9A4A; --t-west-bg:#3A2616; --t-miami:#FF72B6; --t-miami-bg:#3B1A2C; --t-east:#5DB4F5; --t-east-bg:#16293B; --t-nyc:#3FD1B7; --t-nyc-bg:#12302B; --t-dc:#9197FF; --t-dc-bg:#23244A; --t-westx:#FF8A5C; --t-westx-bg:#3E2019; --t-eastx:#8FB3FF; --t-eastx-bg:#1B2540; --t-niagara:#E8C85A; --t-niagara-bg:#352E12;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;}
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--st-deposit);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- sidebar ---------- */
+.side{position:fixed;inset:0 auto 0 0;width:248px;background:var(--asphalt);color:var(--side-fg);display:flex;flex-direction:column;z-index:40;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.brand{padding:22px 22px 18px}
+.brand b{display:block;font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:.04em;color:#fff}
+.brand small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8C91A1;margin-top:4px}
+.road{height:3px;margin-top:14px;background:repeating-linear-gradient(90deg,var(--road) 0 14px,transparent 14px 24px);border-radius:2px;opacity:.9}
+.nav{display:flex;flex-direction:column;gap:2px;padding:8px 12px;overflow-y:auto;flex:1}
+.nav-label{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6F7486;padding:14px 10px 6px}
+.nav button{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:var(--side-fg);padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left;font-weight:500;letter-spacing:.01em}
+.nav button:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav button.on{background:rgba(255,255,255,.1);color:#fff}
+.nav button.on svg{color:var(--road)}
+.nav svg{width:19px;height:19px;flex:none}
+.nav .badge{margin-left:auto;background:var(--road);color:#1B1E29;font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px}
+.side-foot{padding:14px 18px 18px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;font-size:13px}
+.ava{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--road);color:#1B1E29;flex:none}
+.side-foot span{color:#fff;display:block;font-weight:600}
+.side-foot small{color:#8C91A1}
+
+/* ---------- main ---------- */
+.main{margin-left:248px;min-height:100%;padding-inline:28px;padding-block:0 48px}
+.top{display:flex;align-items:center;gap:14px;padding-block:22px 18px;flex-wrap:wrap}
+.top h1{font-family:var(--f-display);font-weight:500;font-size:24px;margin:0;letter-spacing:.01em;text-wrap:balance}
+.top .sp{flex:1}
+.demo{font-size:12px;color:var(--muted);border:1px dashed var(--line);padding:4px 10px;border-radius:99px}
+.menu-btn{display:none}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);padding:9px 14px;border-radius:12px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn.pri{background:var(--ink-btn);color:var(--ink-btn-fg);border-color:transparent}
+.btn.pri:hover{opacity:.9}
+.btn.sm{padding:6px 10px;font-size:12.5px;border-radius:10px}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn svg{width:16px;height:16px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+.panel h2{font-size:15px;margin:0 0 12px;font-weight:600;display:flex;align-items:center;gap:8px}
+.panel h2 .cnt{font-weight:500;color:var(--muted);font-size:13px}
+.hint{color:var(--muted);font-size:13px}
+.empty{color:var(--muted);font-size:13.5px;padding:18px;text-align:center;border:1px dashed var(--line);border-radius:14px}
+input.in,select.in,textarea.in{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;min-width:0}
+textarea.in{resize:vertical;min-height:80px}
+label.fl{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em;min-width:0}
+
+/* ---------- home ---------- */
+.hello{display:flex;flex-direction:column;gap:2px;margin-bottom:18px}
+.hello p{margin:0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:6px}
+.stat:hover{border-color:var(--muted)}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:500;font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.home-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.tour-line{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.tour-line:first-of-type{border-top:0}
+.tour-line .ttl{font-weight:600}
+.tour-line .meta{font-size:12.5px;color:var(--muted)}
+.fillbar{height:6px;background:var(--surface-2);border-radius:9px;overflow:hidden;margin-top:6px;border:1px solid var(--line)}
+.fillbar i{display:block;height:100%;background:var(--st-paid)}
+.q-item{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.q-item:first-of-type{border-top:0}
+.q-item .grow{flex:1;min-width:0}
+.q-item .grow b{display:block;font-weight:600}
+.q-item .grow small{color:var(--muted)}
+.linkish{background:none;border:0;padding:0;cursor:pointer;color:inherit;text-align:left;font-weight:600}
+.linkish:hover{text-decoration:underline}
+
+/* ---------- pills ---------- */
+.tpill{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 8px;border-radius:99px;font-size:12.5px;font-weight:600;white-space:nowrap;background:var(--tb);color:var(--tc)}
+.tpill i{width:8px;height:8px;border-radius:50%;background:var(--tc)}
+.tpill em{font-style:normal;font-weight:500;opacity:.85}
+.T-west{--tc:var(--t-west);--tb:var(--t-west-bg)} .T-miami{--tc:var(--t-miami);--tb:var(--t-miami-bg)} .T-east{--tc:var(--t-east);--tb:var(--t-east-bg)} .T-nyc{--tc:var(--t-nyc);--tb:var(--t-nyc-bg)} .T-dc{--tc:var(--t-dc);--tb:var(--t-dc-bg)} .T-westx{--tc:var(--t-westx);--tb:var(--t-westx-bg)} .T-eastx{--tc:var(--t-eastx);--tb:var(--t-eastx-bg)} .T-niagara{--tc:var(--t-niagara);--tb:var(--t-niagara-bg)}
+.S-new{--sb:var(--st-new-bg);--sc:var(--st-new)} .S-talk{--sb:var(--st-talk-bg);--sc:var(--st-talk)} .S-deposit{--sb:var(--st-deposit-bg);--sc:var(--st-deposit)} .S-paid{--sb:var(--st-paid-bg);--sc:var(--st-paid)} .S-lost{--sb:var(--st-lost-bg);--sc:var(--st-lost)} .S-special{--sb:var(--st-special-bg);--sc:var(--st-special)} .S-refund{--sb:var(--st-refund-bg);--sc:var(--st-refund)}
+.spill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--sc)}
+.spill i{width:9px;height:9px;border-radius:50%;background:var(--sc);display:inline-block}
+.S-new .spill i,.spill.S-new i{background:transparent;border:2px solid var(--sc)}
+
+/* ---------- CRM ---------- */
+.filters{display:grid;grid-template-columns:minmax(0,2fr) repeat(4,minmax(0,1fr)) auto;gap:10px;align-items:end;margin-bottom:12px}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.search-wrap input{padding-left:36px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--fg)}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--sc)}
+.chip.S-new i{background:transparent;border:2px solid var(--sc)}
+.chip b{font-weight:500;color:var(--muted)}
+.chip.on{background:var(--sb);border-color:var(--sc)}
+.chip.S-new.on{background:var(--surface-2)}
+.summary{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:10px}
+.summary b{color:var(--fg);font-weight:600}
+.tbl-wrap{overflow-x:auto;margin-inline:-4px;padding-inline:4px}
+table.rows{width:100%;border-collapse:separate;border-spacing:0 6px;min-width:1040px}
+table.rows th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:4px 12px}
+table.rows td{padding:12px;vertical-align:middle;background:var(--sb);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+table.rows tr.S-new td{background:var(--surface)}
+table.rows td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px}
+table.rows td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}
+table.rows tbody tr{cursor:pointer}
+table.rows tbody tr:hover td{filter:brightness(.97)}
+:root[data-theme="dark"] table.rows tbody tr:hover td{filter:brightness(1.12)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) table.rows tbody tr:hover td{filter:brightness(1.12)}}
+.nm{font-weight:600}
+.sub{font-size:12px;color:var(--muted)}
+.order{font-family:var(--f-mono);font-weight:600;font-size:13px}
+.pay{min-width:130px}
+.pay .pv{font-weight:600;font-variant-numeric:tabular-nums}
+.pay .pv span{color:var(--muted);font-weight:500}
+.pbar{height:5px;border-radius:9px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;margin-top:6px}
+.pbar i{display:block;height:100%;background:var(--st-paid);border-radius:9px}
+.pay small{display:block;font-size:11.5px;color:var(--muted);margin-top:4px}
+.pay small.due{color:var(--st-refund);font-weight:600}
+.pay small.pend{color:var(--st-talk);font-weight:600}
+select.stsel{appearance:none;-webkit-appearance:none;border:1px solid color-mix(in srgb,var(--sc) 45%,transparent);background:var(--surface);color:var(--sc);font-weight:600;font-size:12.5px;padding:6px 26px 6px 10px;border-radius:99px;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 14px) 50%,calc(100% - 10px) 50%;background-size:4px 4px;background-repeat:no-repeat;max-width:200px}
+.note-cell{max-width:210px;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.acts{font-size:12.5px}
+.acts b{font-weight:600}
+.ico-link{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:6px;background:color-mix(in srgb,var(--fg) 8%,transparent);font-size:11px;font-weight:700;margin-left:6px;vertical-align:1px}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,12,18,.38);z-index:50;opacity:0;pointer-events:none;transition:opacity .18s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(580px,100%);background:var(--bg);z-index:60;transform:translateX(102%);transition:transform .22s ease;display:flex;flex-direction:column;border-left:1px solid var(--line);box-shadow:var(--shadow)}
+.drawer.on{transform:none}
+.dr-head{padding:calc(16px + env(safe-area-inset-top,0px)) 20px 14px;display:flex;flex-direction:column;gap:10px;background:var(--sb,var(--surface));border-bottom:1px solid var(--line)}
+.dr-head.S-new{background:var(--surface)}
+.dr-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dr-row .sp{flex:1}
+.dr-name{font-size:22px;font-weight:700;margin:0;line-height:1.2}
+.dr-body{overflow-y:auto;padding:16px 20px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px}
+.blk{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.blk h3{margin:0 0 10px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tourblk{background:var(--tb);border-color:color-mix(in srgb,var(--tc) 35%,transparent)}
+.tourblk h3{color:var(--tc)}
+.tourblk .tn{font-weight:700;font-size:17px;color:var(--tc)}
+.tourblk .td{font-weight:600;margin-top:2px}
+.tourblk .tr{font-size:12.5px;color:var(--muted);margin-top:6px}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:13.5px}
+.kv span{color:var(--muted)}
+.kv b{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.kv .tot{border-top:1px solid var(--line);padding-top:6px}
+.bigpay{display:flex;gap:10px;margin:12px 0 10px}
+.bigpay div{flex:1;border-radius:12px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--line)}
+.bigpay small{display:block;font-size:11.5px;color:var(--muted)}
+.bigpay b{font-size:18px;font-variant-numeric:tabular-nums}
+.bigpay .ok b{color:var(--st-paid)} .bigpay .due b{color:var(--st-refund)}
+.plist{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.pitem{display:flex;align-items:center;gap:10px;font-size:13px;padding:8px 10px;border-radius:10px;background:var(--surface-2)}
+.pitem .grow{flex:1;min-width:0}
+.pitem small{color:var(--muted)}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.tag.ok{background:var(--st-paid-bg);color:var(--st-paid)} .tag.wait{background:var(--st-talk-bg);color:var(--st-talk)}
+.row-form{display:flex;gap:8px;flex-wrap:wrap}
+.row-form>*{flex:1 1 110px}
+.row-form .btn{flex:0 0 auto}
+.checks{display:grid;grid-template-columns:1fr;gap:6px}
+.check{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13.5px}
+.check:hover{border-color:var(--muted)}
+.check input{width:17px;height:17px;accent-color:var(--st-paid)}
+.check .grow{flex:1}
+.check b{font-variant-numeric:tabular-nums;font-weight:600}
+.check.on{background:var(--st-paid-bg);border-color:color-mix(in srgb,var(--st-paid) 40%,transparent)}
+.buddies{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.buddy{display:inline-flex;align-items:center;gap:8px;padding:6px 6px 6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface-2);font-size:13px}
+.buddy button.go{background:none;border:0;cursor:pointer;font-weight:600;padding:0}
+.buddy button.go:hover{text-decoration:underline}
+.buddy .x{border:0;background:transparent;cursor:pointer;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.buddy .x:hover{background:var(--line)}
+.notes{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.nt{padding:9px 12px;border-radius:12px;background:var(--surface-2);font-size:13.5px}
+.nt small{display:block;color:var(--muted);font-size:11.5px;margin-bottom:2px}
+.task{display:flex;align-items:center;gap:10px;font-size:13.5px;padding:6px 0}
+.task input{width:17px;height:17px;accent-color:var(--st-paid)}
+.task.done span{text-decoration:line-through;color:var(--muted)}
+.meta-line{font-size:12.5px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}
+.xbtn{border:0;background:rgba(0,0,0,.06);width:34px;height:34px;border-radius:10px;cursor:pointer;display:grid;place-items:center}
+.xbtn:hover{background:rgba(0,0,0,.12)}
+.xbtn svg{width:18px;height:18px}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;display:grid;place-items:center;z-index:70;padding:16px;pointer-events:none;opacity:0;transition:opacity .15s}
+.modal.on{pointer-events:auto;opacity:1}
+.modal .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;width:min(520px,100%);max-height:90vh;overflow-y:auto;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.modal h2{margin:0;font-size:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}
+
+/* ---------- chat ---------- */
+.chan-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chan{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;font-weight:600;font-size:13px;cursor:pointer}
+.chan.on{background:var(--ink-btn);color:var(--ink-btn-fg);border-color:transparent}
+.chan:disabled{cursor:not-allowed;opacity:.55}
+.chan small{font-weight:500;opacity:.8}
+.chan svg{width:16px;height:16px}
+.inbox{display:grid;grid-template-columns:300px minmax(0,1fr) 280px;height:calc(100vh - 190px);min-height:520px;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.conv-list{border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
+.conv{display:flex;gap:10px;padding:12px 14px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;cursor:pointer;width:100%}
+.conv:hover{background:var(--surface-2)}
+.conv.on{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--tg)}
+.conv .ava{background:var(--tg);color:#fff}
+.conv .grow{flex:1;min-width:0}
+.conv .top-l{display:flex;gap:6px;align-items:center}
+.conv .top-l b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conv .top-l small{margin-left:auto;color:var(--muted);font-size:11.5px;flex:none}
+.conv p{margin:2px 0 0;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conv .unread{background:var(--tg);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:0 7px;margin-left:6px;flex:none}
+.thread{display:flex;flex-direction:column;min-width:0;min-height:0}
+.th-head{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.th-head .grow{flex:1;min-width:0}
+.th-head b{display:block}
+.th-head small{color:var(--muted)}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--surface-2)}
+.msg{max-width:78%;padding:9px 12px;border-radius:14px;font-size:13.5px;white-space:pre-wrap;word-wrap:break-word}
+.msg small{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+.msg.client{background:var(--surface);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.bot{background:var(--surface);border:1px dashed var(--line);align-self:flex-end;border-bottom-right-radius:4px}
+.msg.mgr{background:color-mix(in srgb,var(--tg) 16%,var(--surface));border:1px solid color-mix(in srgb,var(--tg) 30%,transparent);align-self:flex-end;border-bottom-right-radius:4px}
+.msg .who{font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:2px}
+.composer{border-top:1px solid var(--line);padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.quick{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.quick button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+.quick button:hover{border-color:var(--muted)}
+.comp-row{display:flex;gap:8px;align-items:flex-end}
+.comp-row textarea{flex:1;min-height:42px;max-height:140px;resize:none}
+.ctx{border-left:1px solid var(--line);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+.ctx h3{margin:0;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mini{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--sb,var(--surface));display:flex;flex-direction:column;gap:8px}
+.mini.S-new{background:var(--surface)}
+.back-btn{display:none}
+
+/* ---------- ambassadors ---------- */
+.amb-top{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;margin-bottom:16px}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tier{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface-2)}
+.tier b{display:block;font-family:var(--f-display);font-size:20px;font-weight:500}
+.tier span{font-size:12.5px;color:var(--muted)}
+.tier strong{display:block;margin-top:6px;font-size:13.5px}
+.payout{display:flex;flex-direction:column;gap:6px}
+.payout .v{font-family:var(--f-display);font-size:30px}
+table.plain{width:100%;border-collapse:collapse;min-width:760px}
+table.plain th{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.plain td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.plain tr:last-child td{border-bottom:0}
+.code{font-family:var(--f-mono);font-weight:600;background:var(--surface-2);border:1px solid var(--line);padding:2px 8px;border-radius:8px;font-size:12.5px}
+.prog{display:flex;align-items:center;gap:8px;min-width:170px}
+.prog .pbar{flex:1;margin:0}
+.prog .pbar i{background:var(--road)}
+.prog small{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.friends{font-size:12.5px;color:var(--muted);padding:0 10px 12px!important}
+.friends .buddy{font-size:12px}
+
+/* ---------- group chats ---------- */
+.switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;font-size:13px;user-select:none}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .trk{width:40px;height:23px;border-radius:99px;background:var(--line);position:relative;transition:background .15s}
+.switch .trk::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.switch input:checked+.trk{background:var(--st-paid)}
+.switch input:checked+.trk::after{transform:translateX(17px)}
+.switch input:focus-visible+.trk{outline:2px solid var(--st-deposit);outline-offset:2px}
+.gc-group{margin-bottom:16px}
+.gc-group>h2 .tpill{font-size:13px}
+.gc-row{display:grid;grid-template-columns:150px 110px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.gc-row:first-of-type{border-top:0}
+.gc-row .lnk{font-family:var(--f-mono);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.gc-row .lnk a{color:var(--fg)}
+.gc-row .none{color:var(--st-refund);font-weight:600;font-size:12.5px}
+.gc-acts{display:flex;gap:6px}
+.lock{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted);padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:16px}
+.lock svg{width:18px;height:18px;flex:none}
+
+/* ---------- scripts & payments ---------- */
+.scripts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.scard{display:flex;flex-direction:column;gap:8px}
+.scard .cat{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.scard p{margin:0;white-space:pre-wrap;font-size:13.5px;flex:1}
+.scard .row-form{justify-content:flex-end}
+.doc{max-width:820px;display:flex;flex-direction:column;gap:12px}
+.doc .panel p{margin:0;white-space:pre-wrap;line-height:1.6;max-width:68ch}
+.doc .panel .hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.doc .panel .hd h2{margin:0;flex:1}
+
+/* ---------- lists ---------- */
+.list-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+.list-bar label.fl{flex:1 1 180px}
+.list-bar .opts{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding-bottom:9px}
+.opt{display:inline-flex;gap:7px;align-items:center;font-size:13px;cursor:pointer}
+.opt input{width:16px;height:16px;accent-color:var(--st-deposit)}
+.list-sum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.list-sum div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:12.5px;color:var(--muted)}
+.list-sum b{display:block;font-size:18px;color:var(--fg);font-variant-numeric:tabular-nums}
+.list-sum .due b{color:var(--st-refund)}
+
+
+/* v2 additions */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;padding:3px;background:var(--surface-2);gap:2px}
+.seg button{border:0;background:transparent;padding:5px 12px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tour-line.past{opacity:.62}
+.when{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.when.live{background:var(--road);color:#1B1E29;border-color:transparent}
+.items{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);font-size:13px}
+.item .iname{font-weight:600}
+.item .isub{grid-column:1/2;font-size:12px;color:var(--muted)}
+.item .itag{grid-row:1/3;grid-column:2;align-self:center}
+.tag.none{background:var(--st-refund-bg);color:var(--st-refund)}
+.autolog{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.autolog .nt{border:1px dashed var(--line);background:transparent}
+.btn.danger{color:var(--st-refund);border-color:color-mix(in srgb,var(--st-refund) 40%,transparent)}
+.btn.danger.armed{background:var(--st-refund);color:#fff;border-color:transparent}
+input.gnote{width:100%;min-width:200px;border:1px solid transparent;background:var(--surface-2);border-radius:10px;padding:7px 10px;font-size:12.5px}
+input.gnote:hover,input.gnote:focus{border-color:var(--line);background:var(--surface)}
+.msg.bot.auto{border-style:solid;border-color:color-mix(in srgb,var(--st-paid) 45%,transparent);background:color-mix(in srgb,var(--st-paid) 10%,var(--surface))}
+
+/* v3 additions */
+.S-nocontact{--sb:var(--st-deposit-bg);--sc:var(--st-deposit)}
+table.rows tr.S-nocontact td:first-child{box-shadow:inset 5px 0 0 var(--st-refund)}
+.spill.S-nocontact i,.chip.S-nocontact i{box-shadow:0 0 0 2px var(--st-refund)}
+.dr-head.S-nocontact{box-shadow:inset 5px 0 0 var(--st-refund)}
+.wait{display:block;margin-top:5px;font-size:11.5px;font-weight:700;color:var(--st-refund);white-space:nowrap}
+.wait.ok{color:var(--muted);font-weight:600}
+.stat.alert{border-color:color-mix(in srgb,var(--st-refund) 50%,transparent);box-shadow:inset 0 3px 0 var(--st-refund)}
+.auto-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+.rule{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:14px 0;border-top:1px solid var(--line);align-items:center}
+.rule:first-of-type{border-top:0}
+.rule .rt{font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rule .rt small{font-weight:600;font-size:11px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);padding:1px 8px;border-radius:99px}
+.rule .flow{grid-column:1/2;display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 10px;font-size:12.5px;color:var(--muted)}
+.rule .flow b{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.rule .flow span{color:var(--fg)}
+.rule.off .rt,.rule.off .flow span{opacity:.5}
+.rule .switch{grid-row:1/3;grid-column:2}
+.log-item{display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 10px;padding:10px 0;border-top:1px solid var(--line);font-size:13px}
+.log-item:first-of-type{border-top:0}
+.log-item time{font-family:var(--f-mono);font-size:12px;color:var(--muted);padding-top:1px}
+.log-item b{font-weight:600}
+.log-item .lt{grid-column:2;color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bolt{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:color-mix(in srgb,var(--road) 30%,transparent);color:var(--fg);flex:none}
+.bolt svg{width:13px;height:13px}
+.ex-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ex-col{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px}
+.ex-col h4{margin:0 0 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cell-ex{font-size:12.5px;max-width:220px}
+.due-red{color:var(--st-refund);font-weight:600}
+.var{font-family:var(--f-mono);font-size:11.5px;background:color-mix(in srgb,var(--st-deposit) 12%,transparent);color:var(--st-deposit);border-radius:6px;padding:0 4px;white-space:nowrap}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.toolbar .sp{flex:1}
+.remind{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.remind span{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.remind span.sent{background:var(--st-paid-bg);color:var(--st-paid);border-color:transparent}
+.tag.link{background:var(--st-deposit-bg);color:var(--st-deposit)}
+.howto{font-size:13px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;max-width:880px}
+.howto b{color:var(--fg)}
+@media (max-width:900px){.auto-grid,.ex-cols{grid-template-columns:1fr}}
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink-btn);color:var(--ink-btn-fg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:13.5px;opacity:0;transition:.2s;z-index:90;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  .filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .filters .search-wrap-l{grid-column:1/-1}
+  .inbox{grid-template-columns:260px minmax(0,1fr)}
+  .ctx{display:none}
+}
+@media (max-width:900px){
+  .side{transform:translateX(-100%);transition:transform .2s}
+  body.nav-open .side{transform:none;box-shadow:var(--shadow)}
+  .main{margin-left:0;padding-inline:16px}
+  .menu-btn{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+  .menu-btn svg{width:18px;height:18px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .home-grid,.amb-top{grid-template-columns:1fr}
+  .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gc-row{grid-template-columns:1fr auto;}
+  .gc-row .lnk{grid-column:1/-1}
+  .inbox{grid-template-columns:1fr;height:auto;min-height:0}
+  .inbox .conv-list{max-height:none;border-right:0}
+  .inbox.threaded .conv-list{display:none}
+  .inbox:not(.threaded) .thread{display:none}
+  .inbox .msgs{min-height:340px;max-height:55vh}
+  .back-btn{display:inline-flex}
+  .tiers{grid-template-columns:1fr}
+  .top h1{font-size:20px}
+}
+@media (max-width:520px){
+  .filters{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .bigpay{flex-direction:column}
+  .demo{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<aside class="side" id="side">
+  <div class="brand"><b>RIDE &amp; VIBE</b><small>Workspace · сезон 2026</small><div class="road"></div></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="side-foot"><div class="ava">С</div><div><span>Софія</span><small>Підтримка</small></div></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<main class="main">
+  <div class="top">
+    <button class="menu-btn" id="menuBtn" aria-label="Відкрити меню"></button>
+    <h1 id="pageTitle">Головна</h1>
+    <div class="sp"></div>
+    <span class="demo">Демо-модель · тестові дані</span>
+    <div id="topActions"></div>
+  </div>
+  <div id="view"></div>
+</main>
+
+<aside class="drawer" id="drawer" aria-label="Картка учасника"></aside>
+<div class="modal" id="modal"><div class="card" id="modalCard"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= icons ================= */
+const I={
+ home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ crm:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M15.5 4.8a3.2 3.2 0 0 1 0 6.4M17.5 14.8c2.2.6 3.5 2.4 3.5 5.2"/>',
+ chat:'<path d="M4 5h16v11H10l-6 4z"/><path d="M8 10h8M8 13h5"/>',
+ star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8z"/>',
+ link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+ doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/>',
+ card:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/>',
+ list:'<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>', x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/>',
+ menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+ copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+ send:'<path d="M4 12l16-8-6 16-2.5-6.5z"/><path d="M11.5 13.5L20 4"/>',
+ tg:'<path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/><path d="M9 13l9-7"/>',
+ wa:'<path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2z"/>',
+ ig:'<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="16.8" cy="7.2" r=".8"/>',
+ lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ out:'<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+ back:'<path d="M15 5l-7 7 7 7"/>', down:'<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',
+ edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+ hand:'<path d="M2.5 11.5L7 7l3.5 2.5L13 8l8.5 5"/><path d="M7 7l-4.5 4.5 6 6 1.8-1.8M10.3 15.7l2 2 1.2-1.2M12.3 13.5l3 3 1.7-1.7-5-5"/>',
+ bolt:'<path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/>', clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', trash:'<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>'
+};
+const ic=(n,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
+
+/* ================= helpers ================= */
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const pd=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const fd=s=>{const d=pd(s);return MON[d.getMonth()]+' '+d.getDate()};
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const TODAY=new Date(2026,8,29);
+const TODAY_S=iso(TODAY);
+const addDays=(s,n)=>{const d=pd(s);d.setDate(d.getDate()+n);return iso(d)};
+const nowT=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[ʼ'’`"]/g,'').replace(/\s+/g,' ').trim();
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),3200)}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(20260929); const pick=a=>a[Math.floor(R()*a.length)];
+
+/* ================= reference data (season 2026) ================= */
+const TYPES={
+ west:{name:'True West Coast',price:999,days:'8 days',route:'Las Vegas · Grand Canyon · Antelope Canyon · Los Angeles · San Francisco'},
+ westx:{name:'West Express',price:749,days:'5 days',route:'5-day express tour of the West'},
+ miami:{name:'Miami (FL)',price:550,days:'4 days',route:'Miami · Key West · free transfer on day 4'},
+ east:{name:'East Coast',price:689,days:'4 days',route:'NYC · Washington D.C. · Niagara · Six Flags'},
+ eastx:{name:'East Express Trio',price:529,days:'3 days',route:'NYC · Washington D.C. · Niagara'},
+ niagara:{name:'Niagara Falls',price:199,days:'2 days, 1 night',route:'All 3 waterfalls · Maid of the Mist · Night light show & fireworks'},
+ dc:{name:'Washington D.C. Day',price:75,days:'1 day',route:'US Capitol · White House · Lincoln Memorial · Washington Monument'},
+ nyc:{name:'NYC | Six Flags',price:60,days:'1 day',route:'Full day at Six Flags (park admission not included)'}
+};
+const ADDONS=[
+ {id:'heli',name:'Helicopter Flight over Vegas',price:128,types:['west','westx']},
+ {id:'alcatraz',name:'Alcatraz Boat Tour, San Francisco',price:50,types:['west']},
+ {id:'club',name:'Las Vegas Nightclubs (transfer)',price:20,types:['west','westx']},
+ {id:'antelope',name:'Upper Antelope Canyon',price:128,types:['west','westx']},
+ {id:'kart',name:'Go-Kart Racing',price:45,types:['west','westx']},
+ {id:'drift',name:'Police Car Drift Experience',price:99,types:['west','westx']},
+ {id:'dream',name:'Dream Car Drive',price:199,types:['west','westx']},
+ {id:'baja',name:'Baja Truck Madness',price:149,types:['west','westx']},
+ {id:'mflight',name:'Flight over Miami',price:159,types:['miami']},
+ {id:'keywest',name:'Key West Boat Party',price:65,types:['miami']}
+];
+const ADD=Object.fromEntries(ADDONS.map(a=>[a.id,a]));
+const RAW={
+ west:[['08-12','08-19'],['08-26','09-02'],['09-02','09-09'],['09-09','09-16'],['09-16','09-23'],['09-23','09-30'],['09-30','10-07'],['10-07','10-14']],
+ miami:[['08-24','08-27'],['08-31','09-03'],['09-07','09-10'],['09-08','09-11'],['09-13','09-16'],['09-14','09-17'],['09-15','09-18'],['09-20','09-23'],['09-21','09-24'],['09-22','09-25'],['09-27','09-30'],['09-28','10-01'],['10-04','10-07']],
+ westx:[['08-29','09-02'],['09-05','09-09'],['09-12','09-16'],['09-19','09-23'],['09-26','09-30'],['10-03','10-07'],['10-10','10-14']],
+ east:[['09-09','09-12'],['09-17','09-20'],['09-24','09-27'],['10-01','10-04']],
+ eastx:[['09-13','09-15'],['09-20','09-22'],['09-27','09-29']],
+ niagara:[['08-25','08-26'],['08-27','08-28']],
+ dc:[['08-15'],['08-17'],['08-22'],['08-31'],['09-02'],['09-04']],
+ nyc:[['08-10'],['08-20']]
+};
+const DEPS=[];
+for(const [t,list] of Object.entries(RAW))for(const [a,b] of list)DEPS.push({id:t+'-'+a.replace('-',''),type:t,start:'2026-'+a,end:'2026-'+(b||a)});
+DEPS.sort((x,y)=>x.start.localeCompare(y.start)||x.type.localeCompare(y.type));
+const NOLINK=['west-1007','miami-1004'];
+DEPS.forEach(d=>d.chat=NOLINK.includes(d.id)?'':'https://chat.whatsapp.com/demo-'+d.id);
+const depOf=id=>DEPS.find(d=>d.id===id);
+const drange=d=>{if(d.start===d.end)return fd(d.start);const a=pd(d.start),b=pd(d.end);return a.getMonth()===b.getMonth()?fd(d.start)+' – '+b.getDate():fd(d.start)+' – '+fd(d.end)};
+const phase=d=>pd(d.end)<TODAY?'past':pd(d.start)<=TODAY?'live':'soon';
+const STATUS={new:'Новий лід',nocontact:'Завдаток, не зв\'язались',talk:'Триває комунікація',deposit:'Завдаток $100',paid:'Оплачено повністю',lost:'Відмовився / зник',special:'Нестандартна ситуація',refund:'Повернення коштів'};
+const STATUS_EN={new:'New lead',nocontact:'Deposit paid · not contacted',talk:'In conversation',deposit:'$100 deposit paid',paid:'Paid in full',lost:'Dropped out',special:'Special case',refund:'Refund'};
+const SOURCES=['Сайт','Telegram','Instagram','WhatsApp','Амбасадор','Партнер'];
+const MGR=['Софія','Максим','Ірина','Олег'];
+let rrIdx=0; const nextMgr=()=>MGR[(rrIdx++)%MGR.length];
+
+/* ================= automation rules ================= */
+const RULES=[
+ {id:'intake',title:'New website booking goes to CRM',when:'A student pays the $100 deposit on the website (Stripe)',then:'Creates the booking with an order number, sets “Deposit paid · not contacted” and assigns a manager in turn'},
+ {id:'welcome',title:'Welcome message with next steps',when:'A new booking is created',then:'Sends the “First contact after deposit” script by email and Telegram: what happens next and a Stripe link for the balance'},
+ {id:'sla',title:'24-hour contact alert',when:'Nobody from the team contacted the student within 24 hours',then:'Highlights the booking in red on Home and pings the assigned manager'},
+ {id:'contacted',title:'Auto “contacted”',when:'A manager replies to the student in the Chat bot inbox',then:'Switches “not contacted” to “Deposit $100”'},
+ {id:'stripeAuto',title:'Stripe payments confirm themselves',when:'A student pays a Stripe payment link',then:'Marks the payment as confirmed and updates the status. No finance check needed'},
+ {id:'confirm',title:'Payment confirmation message',when:'A payment is confirmed (Stripe automatically, Zelle by finance)',then:'Sends “your payment is confirmed” with what is left to pay'},
+ {id:'chatlink',title:'WhatsApp group invite',when:'The tour is paid in full',then:'Sends the WhatsApp link of the student’s tour and dates'},
+ {id:'addonLink',title:'Optional fun payment link',when:'A manager adds optional fun to a booking',then:'Sends a separate Stripe link for that activity'},
+ {id:'reminders',title:'Balance reminders',when:'The balance is still open 14, 7 and 3 days before the tour',then:'Sends a reminder with the Stripe link'},
+ {id:'dayBefore',title:'Day-before info',when:'1 day before departure',then:'Sends the meeting point, time and guide contact'},
+ {id:'feedback',title:'After-tour follow-up',when:'1 day after the tour ends',then:'Asks for feedback and sends a personal ambassador promo code'},
+ {id:'referral',title:'Promo code credit',when:'Someone books with an ambassador or partner code',then:'Credits the ambassador for Monday’s payout, or adds the booking to the partner’s results'}
+];
+const RULE=Object.fromEntries(RULES.map(r=>[r.id,r]));
+const ON={};RULES.forEach(r=>ON[r.id]=true);
+const LOG=[];
+const logA=(rule,text,pid,t)=>LOG.unshift({t:t||nowT(),rule,text,pid});
+
+/* ================= scripts (English) ================= */
+const SCRIPTS=[
+ {id:'s1',cat:'First contact',quick:true,title:'First contact after deposit',text:'Hi {first_name}! This is {manager} from Ride & Vibe. Thanks for booking {tour} ({dates}). Your $100 deposit is confirmed and your spot is saved.\n\nWhat happens next:\n1. Pay the remaining {balance} by {due_date}. Here is your secure payment link: {payment_link}\n2. As soon as you are paid in full, we will add you to the WhatsApp group with everyone on your tour.\n\nAny questions about the route, hotels or optional fun? Just reply here.'},
+ {id:'s2',cat:'Payments',quick:true,title:'Balance reminder',text:'Hey {first_name}! Friendly reminder: {balance} is left to pay for {tour} ({dates}). The deadline is {due_date}.\n\nPay by card, Apple Pay or Google Pay here: {payment_link}\n\nIf something is not working, write to us and we will find another way.'},
+ {id:'s3',cat:'Payments',quick:true,title:'How to pay with Zelle',text:'Sure, you can pay with Zelle!\n\n1. Send {balance} to {zelle_contact}\n2. In the memo, write your order number: {order}\n3. Send us a screenshot of the transfer here\n\nOur finance team confirms Zelle payments manually, usually within one working day. You will get a message as soon as it is done.'},
+ {id:'s4',cat:'Payments',quick:false,title:'Payment confirmed, welcome to the group',text:'Your payment is confirmed, {first_name}! You are all set for {tour} ({dates}).\n\nHere is the WhatsApp group with everyone on your tour: {chat_link}\nAll updates from organizers and guides will be there.'},
+ {id:'s5',cat:'Optional fun',quick:true,title:'Optional fun offer (West Coast)',text:'Want to make the trip even crazier? On {tour} you can add:\n• Helicopter Flight over Vegas, $128\n• Upper Antelope Canyon, $128\n• Dream Car Drive (Ferrari, Porsche or Lamborghini), $199\n• Go-Kart Racing, $45\n\nTell me what you want and I will send a separate payment link.'},
+ {id:'s6',cat:'Before the tour',quick:false,title:'Day before the tour',text:'Tomorrow is the day, {first_name}!\n\nMeeting point: {meeting_point}\nPlease arrive 15 minutes early.\nBring your passport, DS-2019, a power bank and comfy shoes.\n\nYour guide will be in the WhatsApp group. See you there!'},
+ {id:'s7',cat:'Before the tour',quick:true,title:'What to bring',text:'For the trip you will need: passport, DS-2019, phone and power bank, comfy shoes, sunglasses and a light jacket for the evenings. No sleeping bag needed, we stay in hotels.'},
+ {id:'s8',cat:'Problems',quick:false,title:'Student wants to change dates',text:'No problem, {first_name}, let me check what we can do. Which dates would work for you? I will check availability and get back to you today. Your deposit stays with your booking while we sort it out.'},
+ {id:'s9',cat:'Problems',quick:false,title:'Refund request',text:'Hi {first_name}, I am sorry your plans changed. I have passed your request to our admin team. They will check it against our cancellation policy and reply within 2 working days. If a refund is approved, it goes back the same way you paid.'},
+ {id:'s10',cat:'Problems',quick:false,title:'Nightclubs under 21',text:'Good question! Most clubs in Las Vegas are 21+ and check IDs at the door. If you are under 21, we will suggest other evening plans and our guides will make sure you have a great night anyway.'},
+ {id:'s11',cat:'Lost leads',quick:false,title:'No reply for 3 days',text:'Hey {first_name}, just checking in! Your spot on {tour} ({dates}) is still saved. Do you have any questions I can help with? If your plans changed, just let me know.'},
+ {id:'s12',cat:'Ambassadors',quick:false,title:'Ambassador invite after the tour',text:'Thanks for riding with us, {first_name}! Want to earn on your next trip? Here is your personal promo code: {promo_code}. Share it with friends: you get up to $50 for every friend who books, paid every Monday, plus bonuses like Alcatraz tickets, a flight over Vegas and the Ferrari ride.'}
+];
+const SCRIPT=id=>SCRIPTS.find(s=>s.id===id);
+function fillVars(text,p){
+ if(!p)return text;
+ const d=depOf(p.dep);
+ const map={first_name:p.first,tour:TYPES[d.type].name,dates:drange(d),order:p.order,balance:money(itemLeft(p,'tour')),due_date:fd(addDays(d.start,-14)),
+  payment_link:'https://buy.stripe.com/test_'+p.order.toLowerCase(),chat_link:d.chat||'[WhatsApp link]',manager:p.assignee||S.me,meeting_point:'[meeting point]',zelle_contact:'[Zelle email]',promo_code:p.code||p.first.toUpperCase().slice(0,6)+'27'};
+ return text.replace(/\{(\w+)\}/g,(m,k)=>map[k]!==undefined?map[k]:m);
+}
+
+/* ================= partnerships (examples) ================= */
+const STAGES={lead:'Lead',contacted:'Contacted',talks:'In talks',active:'Active',paused:'Paused',ended:'Ended'};
+const STAGE_CLS={lead:'S-new',contacted:'S-talk',talks:'S-deposit',active:'S-paid',paused:'S-lost',ended:'S-lost'};
+const PTYPES=['J-1 agency','Activity provider','Accommodation','Transport','Creator','Student community','Travel platform'];
+const PARTNERS=[
+ {id:'pt1',name:'Campus Abroad Agency',type:'J-1 agency',city:'Kyiv, Ukraine',contact:'Olha, partnerships manager · @campusabroad_olha',owner:'Олег',stage:'active',since:'2026-05-12',code:'CAMPUS10',
+  give:'Shares our tours with their J-1 students before departure and in their summer chats',get:'10% off for their students with code CAMPUS10 and a co-branded “first trip in the US” guide',
+  deliv:[{side:'them',text:'Post about Ride & Vibe in their student chats (May, June)',done:true},{side:'them',text:'Add our tours to their pre-departure webinar',done:true},{side:'us',text:'Create the code CAMPUS10',done:true},{side:'us',text:'Send the co-branded guide (PDF)',done:false}],
+  next:{text:'Agree on 2027 cooperation and a bigger discount tier',date:'2026-10-15'},notes:[{by:'Олег',text:'Very happy with the season. Want to start promoting in March next year.',date:'2026-09-20'}]},
+ {id:'pt2',name:'Desert Sky Helicopters',type:'Activity provider',city:'Las Vegas, NV',contact:'Mike, sales · mike@desertsky.example',owner:'Максим',stage:'active',since:'2026-06-03',code:'',
+  give:'Group rate on the Vegas helicopter flight and a free seat for our guide',get:'At least 20 flyers per season and their logo on our optional fun page',
+  deliv:[{side:'us',text:'Logo and link on the optional fun page',done:true},{side:'us',text:'Bring 20+ flyers this season',done:true},{side:'them',text:'Keep the group rate for all 2026 tours',done:true},{side:'them',text:'Free seat for the guide on every flight',done:false}],
+  next:{text:'Ask for the 2027 rate sheet',date:'2026-11-01'},notes:[{by:'Максим',text:'Guide seat was missing twice in September. Raise it in the 2027 talk.',date:'2026-09-24'}]},
+ {id:'pt3',name:'Ocean Drive Hostel',type:'Accommodation',city:'Miami, FL',contact:'Front desk manager · @oceandrivehostel',owner:'Софія',stage:'talks',since:'2026-09-10',code:'',
+  give:'Free luggage storage and late check-out on the last day of the Miami tour',get:'Listed as the recommended stay for students arriving early',
+  deliv:[{side:'us',text:'Add them to the Miami “where to stay” list',done:false},{side:'them',text:'Confirm the late check-out terms in writing',done:false}],
+  next:{text:'Call about late check-out time',date:'2026-09-28'},notes:[]},
+ {id:'pt4',name:'@trip.with.olena',type:'Creator',city:'Travel creator, 48k followers',contact:'DM on Instagram',owner:'Софія',stage:'contacted',since:'2026-09-22',code:'OLENA10',
+  give:'3 reels and stories from the trip, plus her promo code in the bio for a month',get:'A free spot on a Miami tour',
+  deliv:[{side:'us',text:'Free spot on Miami (FL), Oct 4 – 7',done:false},{side:'them',text:'3 reels + stories during the trip',done:false},{side:'them',text:'Promo code OLENA10 in bio for 30 days',done:false}],
+  next:{text:'Send the collaboration brief',date:'2026-10-01'},notes:[]},
+ {id:'pt5',name:'Student Council, partner university',type:'Student community',city:'Lviv, Ukraine',contact:'Head of student council',owner:'Олег',stage:'lead',since:'2026-09-25',code:'',
+  give:'An info session about summer tours for students going on J-1',get:'Discount code for their students and a talk about the US from our team',
+  deliv:[],next:{text:'Find the right contact',date:'2026-10-05'},notes:[]},
+ {id:'pt6',name:'Coast2Coast Shuttles',type:'Transport',city:'Los Angeles, CA',contact:'Dispatch office',owner:'Максим',stage:'paused',since:'2026-07-01',code:'',
+  give:'Priority booking for airport transfers in LA',get:'Their logo on our website footer',
+  deliv:[{side:'us',text:'Logo in the website footer',done:true},{side:'them',text:'Priority booking on peak days',done:false}],
+  next:{text:'Decide whether to continue in 2027',date:'2026-12-01'},notes:[{by:'Максим',text:'Two late pickups in August. Paused until we review.',date:'2026-08-30'}]},
+ {id:'pt7',name:'Wanderlist',type:'Travel platform',city:'Online',contact:'partners@wanderlist.example',owner:'Ірина',stage:'lead',since:'2026-09-27',code:'',
+  give:'A free listing of our tours for international travelers',get:'Reviews from our students on their platform',
+  deliv:[],next:{text:'Ask about listing requirements',date:'2026-10-08'},notes:[]}
+];
+const byP=id=>PARTNERS.find(x=>x.id===id);
+
+/* ================= money model: tour + each optional fun paid separately ================= */
+const typeOf=p=>depOf(p.dep).type;
+const itemName=(p,f)=>f==='tour'?TYPES[typeOf(p)].name:ADD[f].name;
+const itemPrice=(p,f)=>f==='tour'?TYPES[typeOf(p)].price:ADD[f].price;
+const itemsOf=p=>['tour',...p.addons];
+const itemPaid=(p,f)=>p.payments.filter(x=>x.ok&&x.for===f).reduce((s,x)=>s+x.amt,0);
+const itemPend=(p,f)=>p.payments.filter(x=>!x.ok&&x.for===f).reduce((s,x)=>s+x.amt,0);
+const itemLink=(p,f)=>p.payments.filter(x=>!x.ok&&x.link&&x.for===f).reduce((s,x)=>s+x.amt,0);
+const itemLeft=(p,f)=>Math.max(0,itemPrice(p,f)-itemPaid(p,f));
+const total=p=>itemsOf(p).reduce((s,f)=>s+itemPrice(p,f),0);
+const paid=p=>p.payments.filter(x=>x.ok).reduce((s,x)=>s+x.amt,0);
+const left=p=>itemsOf(p).reduce((s,f)=>s+itemLeft(p,f),0);
+
+/* ================= generate demo participants ================= */
+const FIRST=['Anastasiia','Dmytro','Sofiia','Maksym','Yuliia','Oleksandr','Nino','Giorgi','Ece','Emre','Aruzhan','Nursultan','Kacper','Zuzanna','Mariia','Andrii','Viktoriia','Bohdan','Kateryna','Denys','Alina','Taras','Iryna','Ivan','Polina','Artem','Daria','Nazar','Veronika','Yaroslav','Khrystyna','Roman','Olha','Mykyta','Lika'];
+const LAST=['Koval','Shevchuk','Bondarenko','Melnyk','Kravets','Tkachenko','Beridze','Kapanadze','Yilmaz','Demir','Nurlanova','Seitkali','Nowak','Wisniewska','Hnatiuk','Lysenko','Moroz','Savchuk','Pavlenko','Rudenko','Horbach','Ostapchuk','Zinchenko','Marchenko','Kuzmenko','Vovk','Polishchuk','Sydorenko','Klymenko','Babii','Fedorchuk','Levchenko','Didenko'];
+const P=[];const USED=new Set();
+const byId=id=>P.find(p=>p.id===id);
+const nm=p=>p.first+' '+p.last;
+const newName=()=>{let f,l,n=0;do{f=pick(FIRST);l=pick(LAST);n++}while(USED.has(f+l)&&n<500);USED.add(f+l);return [f,l]};
+const mkPerson=(f,l,dep,extra)=>Object.assign({id:'p'+P.length+'_'+Math.floor(R()*1e6),first:f,last:l,dep,
+  phone:'+1 ('+(201+Math.floor(R()*700))+') '+(200+Math.floor(R()*799))+'-'+String(1000+Math.floor(R()*8999)),
+  tg:'@'+f.toLowerCase()+'_'+l.toLowerCase().slice(0,4),email:f.toLowerCase()+'.'+l.toLowerCase()+'@gmail.com',
+  source:pick(['Сайт','Сайт','Сайт','Telegram','Telegram','Instagram','WhatsApp']),assignee:nextMgr(),hrs:null,
+  addons:[],payments:[],notes:[],tasks:[],buddies:[],ref:null,code:null,gnote:'',auto:[]},extra);
+function wpick(tab){const s=tab.reduce((a,b)=>a+b[1],0);let r=R()*s;for(const [k,w] of tab){if((r-=w)<0)return k}return tab[0][0]}
+(function gen(){
+ for(const d of DEPS){
+  const ph=phase(d),to=(pd(d.start)-TODAY)/864e5;
+  const n=ph==='past'?2+Math.floor(R()*2):ph==='live'?7+Math.floor(R()*3):5+Math.floor(R()*5);
+  const tab=ph==='past'?[['paid',86],['refund',5],['lost',9]]:ph==='live'?[['paid',78],['special',10],['refund',5],['lost',7]]
+   :to<8?[['paid',34],['deposit',30],['talk',12],['new',6],['special',6],['refund',4],['lost',8]]:[['paid',14],['deposit',30],['talk',24],['new',20],['lost',8],['special',4]];
+  for(let k=0;k<n;k++){
+   const [f,l]=newName();const st=wpick(tab);
+   let cr;
+   if(st==='new')cr=addDays(TODAY_S,-Math.floor(R()*3));
+   else if(st==='talk')cr=addDays(TODAY_S,-1-Math.floor(R()*8));
+   else{cr=addDays(d.start,-(4+Math.floor(R()*45)));if(cr>TODAY_S)cr=TODAY_S}
+   if(cr<'2026-06-15')cr='2026-06-'+String(15+Math.floor(R()*15)).padStart(2,'0');
+   P.push(mkPerson(f,l,d.id,{status:st,created:cr}));
+  }
+ }
+ // fresh website bookings nobody contacted yet
+ const soonD=DEPS.filter(d=>phase(d)==='soon'&&(pd(d.start)-TODAY)/864e5>4);
+ [2,5,9,27,41].forEach((h,k)=>{const [f,l]=newName();P.push(mkPerson(f,l,soonD[(k*3+1)%soonD.length].id,{status:'nocontact',hrs:h,source:'Сайт',created:h<12?TODAY_S:h<36?addDays(TODAY_S,-1):addDays(TODAY_S,-2)}))});
+ [...P].sort((a,b)=>a.created.localeCompare(b.created)||a.id.localeCompare(b.id)).forEach((p,k)=>p.order='RV-'+(1001+k));
+ for(const p of P){
+  const d=depOf(p.dep),t=d.type;
+  if(['deposit','paid','special','refund'].includes(p.status)){
+   const av=ADDONS.filter(a=>a.types.includes(t));const n=av.length?Math.floor(R()*3):0;
+   for(let k=0;k<n;k++){const a=pick(av).id;if(!p.addons.includes(a))p.addons.push(a)}
+  }
+  const price=TYPES[t].price;
+  let zd=addDays(p.created,2+Math.floor(R()*10));const cap=d.start<TODAY_S?addDays(d.start,-1):TODAY_S;if(zd>cap)zd=cap;if(zd<p.created)zd=p.created;
+  const dp={amt:100,method:'Stripe',ok:true,date:p.created,by:'Сайт, автоматично',conf:'Stripe',for:'tour'};
+  const pay=(amt,f)=>{const z=R()<.45;p.payments.push({amt,method:z?'Zelle':'Stripe',ok:true,date:zd,by:z?p.assignee:'Stripe-посилання',conf:z?'Ірина':'Stripe',link:!z,for:f})};
+  if(p.status==='deposit'||p.status==='nocontact')p.payments.push(dp);
+  if(p.status==='paid'){p.payments.push(dp);pay(price-100,'tour');p.addons.forEach(a=>pay(ADD[a].price,a))}
+  if(p.status==='special'){p.payments.push(dp);if(R()<.5)pay(price-100,'tour')}
+  if(p.status==='refund'){p.payments.push(dp);if(R()<.6)pay(price-100,'tour')}
+  if(p.status==='lost'&&R()<.2)p.payments.push(dp);
+ }
+ const fut=P.filter(p=>phase(depOf(p.dep))==='soon');
+ // Zelle payments waiting for finance
+ fut.filter(p=>p.status==='deposit').slice(0,3).forEach((p,k)=>p.payments.push({amt:k===2?300:itemLeft(p,'tour'),method:'Zelle',ok:false,date:k<2?'2026-09-29':'2026-09-28',by:p.assignee,for:'tour'}));
+ // Stripe links sent, waiting for the student to pay
+ fut.filter(p=>p.status==='deposit'&&!p.payments.some(x=>!x.ok)).slice(0,3).forEach(p=>p.payments.push({amt:itemLeft(p,'tour'),method:'Stripe',ok:false,link:true,date:'2026-09-28',by:p.assignee,for:'tour'}));
+ // tour paid in full, optional fun added later, link sent
+ const hp=fut.find(p=>p.status==='paid'&&['west','westx'].includes(typeOf(p)));
+ if(hp){hp.payments=hp.payments.filter(x=>x.for!=='heli');if(!hp.addons.includes('heli'))hp.addons.push('heli');hp.payments.push({amt:128,method:'Stripe',ok:false,link:true,date:'2026-09-29',by:hp.assignee,for:'heli'});hp.notes.push({by:hp.assignee,text:'Додала гелікоптер через 3 дні після повної оплати туру. Посилання Stripe надіслано автоматично.',date:'2026-09-29'})}
+ // Zelle for optional fun waiting for finance
+ const zf=fut.find(p=>p.status==='paid'&&typeOf(p)==='miami');
+ if(zf){if(!zf.addons.includes('keywest'))zf.addons.push('keywest');zf.payments=zf.payments.filter(x=>x.for!=='keywest');zf.payments.push({amt:65,method:'Zelle',ok:false,date:'2026-09-29',by:zf.assignee,for:'keywest'})}
+ P.filter(p=>p.status==='nocontact').forEach(p=>p.auto.push({text:fillVars(SCRIPT('s1').text,p),date:p.created,channel:'Email'}));
+ // companions
+ const byDep={};P.forEach(p=>(byDep[p.dep]=byDep[p.dep]||[]).push(p));
+ const link=(a,b)=>{if(a&&b&&a!==b&&!a.buddies.includes(b.id)){a.buddies.push(b.id);b.buddies.push(a.id)}};
+ Object.values(byDep).forEach((ps,k)=>{if(ps.length>=4&&k%2===0){link(ps[0],ps[1]);if(k%4===0)link(ps[2],ps[3])}});
+ // ambassadors
+ const amb=P.filter(p=>p.status==='paid').sort((a,b)=>a.created.localeCompare(b.created)).slice(0,8);
+ const past=[7,4,3,2,1,1,0,0];
+ amb.forEach((p,k)=>{p.code=p.first.toUpperCase().slice(0,6)+(26+k*3);p.past=past[k];p.paidOut=past[k]*50});
+ const give=[0,0,0,0,1,1,2,2,3,4,5,6];
+ const pool=fut.filter(p=>!p.code&&['deposit','paid','talk','new'].includes(p.status));
+ give.forEach((a,k)=>{const q=pool[(k*5+2)%pool.length];if(q&&!q.ref){q.ref=amb[a].code;q.source='Амбасадор'}});
+ // partner promo codes
+ P.filter(p=>!p.ref&&!p.code&&['deposit','paid'].includes(p.status)).filter((p,k)=>k%7===3).slice(0,6).forEach(p=>{p.ref='CAMPUS10';p.source='Партнер'});
+ // notes & tasks
+ P.filter(p=>p.status==='special').forEach((p,k)=>{
+  p.notes.push({by:'Максим',text:['Роботодавець поки не підтвердив вихідні. Просить притримати місце до п\'ятниці.','Хоче перенести тур на пізніші дати, питає, чи збережеться завдаток.','Приєднається до групи вже в Лас-Вегасі, потрібен окремий трансфер.'][k%3],date:'2026-09-27'});
+  p.tasks.push({text:['Зателефонувати в п\'ятницю щодо підтвердження','Погодити перенесення з адміністратором','Знайти трансфер з аеропорту LAS'][k%3],done:phase(depOf(p.dep))==='past'});
+ });
+ P.filter(p=>p.status==='refund').forEach(p=>{p.notes.push({by:'Ірина',text:'Повернення погоджене. Оформити через Stripe тим самим способом, яким платив учасник.',date:'2026-09-26'});p.tasks.push({text:'Оформити повернення коштів',done:phase(depOf(p.dep))==='past'})});
+ const extra=[['Софія','Просить поселити в один номер з подругою.'],['Олег','Вегетаріанець, попередити ресторан.'],['Максим','Оплатив Zelle з рахунку брата, ім\'я відправника інше.'],['Софія','Прилітає пізно ввечері напередодні, питала про хостел поруч з точкою зустрічі.']];
+ fut.filter(p=>['deposit','paid'].includes(p.status)).filter((p,k)=>k%5===1).slice(0,4).forEach((p,j)=>p.notes.push({by:extra[j][0],text:extra[j][1],date:'2026-09-2'+(4+j)}));
+ const gn=['Їде раніше: рейс о 14:00 в останній день, трансфер в аеропорт','Запізнюється на старт, приєднається ввечері в готелі','Пропускає Antelope Canyon, чекає в готелі'];
+ fut.filter(p=>p.status==='paid').filter((p,k)=>k%6===2).slice(0,3).forEach((p,k)=>p.gnote=gn[k]);
+ // seed automation log
+ const T=['12:12','12:03','11:51','11:40','11:22','10:58','10:31','10:05','09:47','09:30','09:02','08:15'];let ti=0;const at=()=>T[Math.min(ti++,T.length-1)];
+ const ncs=P.filter(p=>p.status==='nocontact').sort((a,b)=>a.hrs-b.hrs);
+ if(ncs[0]){logA('intake',`${ncs[0].order} created from a website deposit, assigned to ${ncs[0].assignee}`,ncs[0].id,at());logA('welcome','Welcome email with next steps sent to '+nm(ncs[0]),ncs[0].id,at())}
+ const late=ncs.filter(p=>p.hrs>=24);late.forEach(p=>logA('sla',`${nm(p)} waits ${p.hrs} h without contact. Pinged ${p.assignee}`,p.id,at()));
+ const sp=P.find(p=>p.status==='paid'&&phase(depOf(p.dep))==='soon'&&p.payments.some(x=>x.link&&x.ok));
+ if(sp){logA('stripeAuto',`Stripe payment ${money(itemPrice(sp,'tour')-100)} from ${nm(sp)} confirmed automatically`,sp.id,at());logA('chatlink','WhatsApp group link sent to '+nm(sp),sp.id,at())}
+ const rm=P.filter(p=>p.status==='deposit'&&phase(depOf(p.dep))==='soon').slice(0,2);rm.forEach(p=>logA('reminders',`Balance reminder (${money(itemLeft(p,'tour'))}) sent to ${nm(p)}`,p.id,at()));
+ const lv=DEPS.find(d=>d.start===addDays(TODAY_S,1));if(lv)logA('dayBefore',`Meeting point info sent to ${P.filter(p=>p.dep===lv.id&&p.status==='paid').length} students of ${TYPES[lv.type].name}, ${drange(lv)}`,null,at());
+ const pe=DEPS.find(d=>d.end===addDays(TODAY_S,-1));if(pe)logA('feedback',`Feedback request and promo codes sent to ${TYPES[pe.type].name}, ${drange(pe)}`,null,at());
+ const rf=P.find(p=>p.ref&&p.status==='deposit');if(rf)logA('referral',`${nm(rf)} booked with code ${rf.ref}`,rf.id,at());
+ LOG.reverse();
+})();
+
+/* ================= chat conversations ================= */
+const futP=st=>P.filter(p=>p.status===st&&phase(depOf(p.dep))!=='past');
+const CONVS=[];
+(function(){
+ const pendTour=P.find(p=>p.payments.some(x=>!x.ok&&!x.link&&x.for==='tour'));
+ const b=futP('talk')[0],c=futP('special')[0],d=futP('refund')[0],e=futP('paid')[3],f=futP('talk')[1],g=P.filter(p=>p.status==='nocontact').sort((a,b)=>b.hrs-a.hrs)[0];
+ const mk=(p,unread,time,msgs,extra={})=>CONVS.push(Object.assign({id:'c'+CONVS.length,pid:p?p.id:null,name:p?nm(p):extra.name,handle:p?p.tg:extra.handle,unread,time,assignee:p?p.assignee:'Софія',msgs},extra));
+ if(g)mk(g,1,'11:02',[{from:'bot',auto:true,text:fillVars(SCRIPT('s1').text,g),t:'Вчора'},{from:'client',text:'Hi! Can I pay the rest in two parts?',t:'11:02'}]);
+ mk(pendTour,2,'12:14',[
+  {from:'client',text:'Добрий день! Я щойно відправила решту суми через Zelle',t:'12:11'},
+  {from:'bot',text:'Дякуємо! Менеджер перевірить оплату найближчим часом.',t:'12:11'},
+  {from:'client',text:'Скажіть, будь ласка, коли прийде посилання на чат групи?',t:'12:14'}]);
+ mk(null,1,'12:02',[
+  {from:'client',text:'Hi! Is there still space on the Miami tour on Oct 4?',t:'12:01'},
+  {from:'bot',text:'Привіт! Ось усі тури Ride & Vibe і бронювання за $100: ridevibe.travel',t:'12:01'},
+  {from:'client',text:'Can I pay the deposit later this week?',t:'12:02'}],{name:'Oksana Petrenko',handle:'@oksana_ptr'});
+ if(b)mk(b,0,'11:40',[
+  {from:'client',text:'А в Гранд-Каньйоні ми ночуємо в готелі?',t:'11:38'},
+  {from:'bot',text:'На це питання відповість менеджер. Залиште повідомлення, і ми скоро напишемо.',t:'11:38'},
+  {from:'client',text:'І чи можна доплатити за гелікоптер над Вегасом вже на місці?',t:'11:40'}]);
+ if(c)mk(c,0,'10:55',[
+  {from:'client',text:'Мій роботодавець може не відпустити на ці дати. Що робити із завдатком?',t:'10:31'},
+  {from:'mgr',by:'Максим',text:'Не хвилюйтеся, ми можемо перенести бронювання на інші дати. Дайте знати до п\'ятниці.',t:'10:55'}]);
+ if(d)mk(d,0,'Вчора',[
+  {from:'client',text:'Підкажіть, коли прийде повернення?',t:'18:20'},
+  {from:'mgr',by:'Ірина',text:'Повернення погоджене, кошти повернуться на картку, з якої ви платили.',t:'18:42'}]);
+ if(e)mk(e,0,'Вчора',[
+  {from:'client',text:'Що взяти з собою в тур?',t:'15:02'},
+  {from:'mgr',by:'Софія',text:SCRIPT('s7').text,t:'15:10'},
+  {from:'client',text:'Супер, дякую!',t:'15:11'}]);
+ if(f)mk(f,0,'Пн',[
+  {from:'client',text:'Скільки коштує East Coast і які там дати?',t:'09:12'},
+  {from:'bot',text:'East Coast, 4 дні, $689. Найближчий виїзд Oct 1 – 4. Бронювання: ridevibe.travel',t:'09:12'}]);
+})();
+
+/* ================= app state ================= */
+const S={view:'home',f:{q:'',type:'',dep:'',source:'',status:''},open:null,openP:null,chat:{active:'c0',threaded:false},admin:false,
+ list:{type:'',dep:'',debt:false,lost:false},homeTours:'soon',gcPast:false,arm:null,scCat:'',scQ:'',pStage:'',pType:'',
+ paydocs:[],paydocEdit:null,scriptEdit:null,
+ extraChats:[{id:'x1',name:'Загальний чат амбасадорів',url:'https://chat.whatsapp.com/demo-ambassadors'}],gcEdit:null,me:'Софія'};
+S.paydocs=[
+ {h:'How we accept payments',t:'Stripe is our main payment method. Students pay by card, Apple Pay or Google Pay.\n\n• $100 deposit: paid on the website when booking. The booking appears in the CRM automatically.\n• Balance and optional fun: paid by Stripe payment links. A manager sends the link from the participant card, or an automation sends it.\n• Stripe payments are confirmed automatically. Nobody needs to check them by hand.\n\nZelle is a backup for students with a US bank account who cannot pay by card. Zelle payments are checked by the finance team.\n\nCash is accepted only with admin approval, for example optional fun paid on site.'},
+ {h:'Payment flow, step by step',t:'1. The student pays the $100 deposit on the website (Stripe).\n2. The booking appears in the CRM with the status “Deposit paid · not contacted” and an assigned manager.\n3. The student automatically gets a welcome message with next steps and a Stripe link for the balance.\n4. The manager contacts the student within 24 hours.\n5. The student pays the balance by the Stripe link. The status changes to “Paid in full” by itself.\n6. The student automatically gets the WhatsApp group link of their tour.\n7. Optional fun added later gets its own Stripe link and is tracked separately from the tour price.'},
+ {h:'Deadlines and reminders',t:'Example rule, confirm with management:\n• The balance is due 14 days before the tour.\n• Automatic reminders go out 14, 7 and 3 days before the tour while the balance is open.\n• If the balance is still open 3 days before the tour, the manager calls the student and decides with the admin what to do.'},
+ {h:'If a Stripe payment fails',t:'• Ask the student to try another card, or Apple Pay / Google Pay.\n• Cards issued outside the US sometimes block international payments. The student can allow them in their banking app and try again.\n• Resend the payment link from the participant card if the old one expired.\n• A friend or parent can pay with their card. Ask them to keep the order number in the message to us.\n• If nothing works, offer Zelle (only if the student or a friend has a US bank account).'},
+ {h:'Zelle rules',t:'• The student writes the order number (RV-xxxx) in the Zelle memo and sends a screenshot.\n• The manager adds the Zelle payment in the participant card. It goes to the finance queue on Home.\n• Only the finance team confirms Zelle payments.\n• If the sender name is different (a friend or relative), add a note in the card.\n• Do not send the WhatsApp group link before the payment is confirmed. After confirmation it is sent automatically.'},
+ {h:'Duplicates and mistakes',t:'• A payment waiting for confirmation can be deleted in the participant card or in the queue on Home.\n• If a Stripe payment was charged twice, refund the extra one in the Stripe dashboard and leave a note in the card.\n• Never edit a confirmed payment. Write a note and ask the admin.'},
+ {h:'Refunds and cancellations',t:'Example policy, replace with the real one:\n• Requests go to the admin team, who reply within 2 working days.\n• Approved refunds go back the same way the student paid. Stripe refunds are made in the Stripe dashboard.\n• While a refund is in progress, the booking has the red “Refund” status.'},
+ {h:'Disputes (chargebacks)',t:'If a student disputes a card payment with their bank, Stripe notifies us and shows a deadline.\n• Tell the admin the same day.\n• Collect evidence: booking confirmation, chat history, payment confirmations and proof the student joined the tour.\n• Submit it in the Stripe dashboard before the deadline.'},
+ {h:'Fees',t:'Stripe charges a fee for each payment. Cards issued outside the US and currency conversion cost more. Check the current rates in the Stripe dashboard. Zelle has no fee for us.'}
+];
+const NAV=[
+ {id:'home',label:'Home',ua:'Головна',ic:'home'},
+ {id:'crm',label:'CRM',ua:'CRM',ic:'crm'},
+ {id:'chat',label:'Chat bot',ua:'Чат-бот',ic:'chat'},
+ {id:'lists',label:'Participant lists',ua:'Списки учасників',ic:'list'},
+ {id:'partners',label:'Partnerships',ua:'Partnerships',ic:'hand'},
+ {id:'amb',label:'Ambassadors',ua:'Амбасадори',ic:'star'},
+ {id:'groups',label:'Group chats',ua:'Групові чати',ic:'link'},
+ {id:'scripts',label:'Scripts',ua:'Scripts',ic:'doc'},
+ {id:'payments',label:'Payments',ua:'Payments',ic:'card'},
+ {id:'auto',label:'Automations',ua:'Automations',ic:'bolt'}
+];
+
+/* ================= shared bits ================= */
+const tpill=depId=>{const d=depOf(depId);return `<span class="tpill T-${d.type}"><i></i>${esc(TYPES[d.type].name)} <em>${drange(d)}</em></span>`};
+const spill=s=>`<span class="spill S-${s}"><i></i>${STATUS[s]}</span>`;
+const stSelect=(p,act,en)=>`<select class="stsel S-${p.status}" data-act="${act}" data-id="${p.id}" aria-label="${en?'Status':'Статус'}">${Object.keys(STATUS).map(k=>`<option value="${k}"${k===p.status?' selected':''}>${(en?STATUS_EN:STATUS)[k]}</option>`).join('')}</select>`;
+const waitLbl=p=>p.status==='nocontact'?`<span class="wait${p.hrs>=24?'':' ok'}">${p.hrs<1?'щойно':'чекає '+p.hrs+' год'}${p.hrs>=24?' · понад 24 год':''}</span>`:'';
+function payCell(p){
+ const tot=total(p),pa=paid(p),pc=Math.min(100,Math.round(pa/tot*100));
+ let s=p.status==='lost'?'<small>—</small>':left(p)>0?`<small class="due">Залишок ${money(left(p))}</small>`:'<small>Сплачено повністю</small>';
+ p.payments.filter(x=>!x.ok).forEach(x=>{s+=`<small class="pend">${esc(x.for==='tour'?'Тур':ADD[x.for].name)}: ${money(x.amt)} ${x.link?'· Stripe-посилання надіслано':'· Zelle на перевірці'}</small>`});
+ return `<div class="pay"><div class="pv">${money(pa)} <span>/ ${money(tot)}</span></div><div class="pbar"><i style="width:${pc}%"></i></div>${s}</div>`;
+}
+function autoStatus(p){
+ if(['lost','special','refund'].includes(p.status))return;
+ const tp=itemPaid(p,'tour');
+ if(tp>=itemPrice(p,'tour')&&p.status!=='paid'){p.status='paid';return 'Статус: «Оплачено повністю»'}
+ if(tp>=100&&tp<itemPrice(p,'tour')&&['new','talk'].includes(p.status)){p.status='deposit';return 'Статус: «Завдаток $100»'}
+}
+const pendingList=()=>P.flatMap(p=>p.payments.map((x,k)=>({p,x,k}))).filter(o=>!o.x.ok&&!o.x.link);
+function sendTG(p,text){
+ let c=CONVS.find(v=>v.pid===p.id);
+ if(!c){c={id:'c'+CONVS.length+'a',pid:p.id,name:nm(p),handle:p.tg,unread:0,time:'Щойно',assignee:p.assignee||S.me,msgs:[]};CONVS.push(c)}
+ c.msgs.push({from:'bot',auto:true,text,t:nowT()});c.time='Щойно';
+}
+function notify(p,text,channel){p.auto.push({text,date:TODAY_S,channel});if(channel!=='Email')sendTG(p,text)}
+function afterConfirm(p,x){
+ const st=autoStatus(p);const d=depOf(p.dep);const msgs=[];
+ if(ON.confirm){
+  const what=x.for==='tour'?`«${TYPES[d.type].name}, ${drange(d)}»`:`«${ADD[x.for].name}»`;
+  let t=`Вітаю! Твоя оплата ${money(x.amt)} за ${what} підтверджена, дякую, що ти з нами!`;
+  if(x.for==='tour'&&itemLeft(p,'tour')>0)t+=` Залишок до сплати: ${money(itemLeft(p,'tour'))}.`;
+  notify(p,t,'Telegram');logA('confirm','Payment confirmation sent to '+nm(p),p.id);msgs.push('підтвердження');
+ }
+ if(x.for==='tour'&&itemLeft(p,'tour')===0&&ON.chatlink){
+  if(d.chat){notify(p,fillVars(SCRIPT('s4').text,p),'Telegram');logA('chatlink','WhatsApp group link sent to '+nm(p),p.id);msgs.push('посилання на WhatsApp-чат')}
+  else msgs.push('⚠ для туру немає посилання на WhatsApp-чат, додайте його в Group chats');
+ }
+ return {st,msgs};
+}
+function confirmPayment(p,k){
+ const x=p.payments[k];x.ok=true;x.conf=S.me;const r=afterConfirm(p,x);
+ toast(`Оплату ${money(x.amt)} підтверджено.`+(r.msgs.length?' Учаснику надіслано: '+r.msgs.join(', ')+'.':'')+(r.st?' '+r.st+'.':''));
+}
+function stripePaid(p,k){
+ const x=p.payments[k];
+ if(!ON.stripeAuto){toast('Automation “Stripe payments confirm themselves” is off. Ask finance to confirm it.');x.link=false;return}
+ x.ok=true;x.conf='Stripe';x.date=TODAY_S;logA('stripeAuto',`Stripe payment ${money(x.amt)} from ${nm(p)} confirmed automatically`,p.id);
+ const r=afterConfirm(p,x);
+ toast(`Stripe: учасник оплатив ${money(x.amt)}. Підтверджено автоматично.`+(r.msgs.length?' Надіслано: '+r.msgs.join(', ')+'.':'')+(r.st?' '+r.st+'.':''));
+}
+function sendStripeLink(p,f,amt,auto){
+ p.payments.push({amt,method:'Stripe',ok:false,link:true,date:TODAY_S,by:auto?'Автоматизація':S.me,for:f});
+ const txt=`Ось посилання для оплати «${f==='tour'?TYPES[typeOf(p)].name:ADD[f].name}», ${money(amt)}: https://buy.stripe.com/test_${p.order.toLowerCase()}${f==='tour'?'':'-'+f}`;
+ notify(p,txt,'Telegram');
+}
+function markContacted(p,how){
+ if(p.status!=='nocontact')return;
+ p.status=itemLeft(p,'tour')===0?'paid':'deposit';p.hrs=null;
+ p.notes.push({by:S.me,text:how==='chat'?'Зв\'язались у чаті (статус змінено автоматично).':'Позначено: зв\'язались.',date:TODAY_S});
+ if(how==='chat')logA('contacted',`${nm(p)} moved from “not contacted” after ${S.me}'s reply`,p.id);
+}
+function reminders(p){
+ const d=depOf(p.dep);
+ if(phase(d)!=='soon'||itemLeft(p,'tour')===0||['lost','refund','new','talk'].includes(p.status))return null;
+ return [14,7,3].map(n=>{const dt=addDays(d.start,-n);return {n,date:dt,sent:dt<=TODAY_S}});
+}
+function simDeposit(){
+ if(!ON.intake){toast('Automation “New website booking goes to CRM” is off: the booking would have to be entered by hand.');return}
+ const opts=DEPS.filter(d=>phase(d)==='soon'&&(pd(d.start)-TODAY)/864e5>4);const d=pick(opts);
+ const [f,l]=newName();const max=Math.max(...P.map(x=>+x.order.slice(3)));
+ const p=mkPerson(f,l,d.id,{status:'nocontact',created:TODAY_S,hrs:0,source:'Сайт',order:'RV-'+(max+1)});
+ p.payments.push({amt:100,method:'Stripe',ok:true,date:TODAY_S,by:'Сайт, автоматично',conf:'Stripe',for:'tour'});
+ P.push(p);
+ logA('intake',`${p.order} created from a website deposit, assigned to ${p.assignee}`,p.id);
+ if(ON.welcome){notify(p,fillVars(SCRIPT('s1').text,p),'Email');logA('welcome','Welcome email with next steps sent to '+nm(p),p.id)}
+ toast(`Нове бронювання ${p.order}: ${nm(p)}, ${TYPES[d.type].name} ${drange(d)}. Менеджер: ${p.assignee}.`+(ON.welcome?' Welcome-лист надіслано.':''));
+ return p;
+}
+
+/* ================= views ================= */
+const V={};
+V.home=()=>{
+ const flt=S.homeTours;
+ const deps=DEPS.filter(d=>flt==='all'||(flt==='soon'?phase(d)!=='past':phase(d)==='past'));
+ const week=DEPS.filter(d=>{const x=(pd(d.start)-TODAY)/864e5;return x>=0&&x<=7}).length;
+ const pl=pendingList();
+ const tasks=P.flatMap(p=>p.tasks.map((t,k)=>({p,t,k}))).filter(o=>!o.t.done);
+ const cnt=s=>P.filter(p=>p.status===s).length;
+ const nc=P.filter(p=>p.status==='nocontact').sort((a,b)=>b.hrs-a.hrs);const late=nc.filter(p=>p.hrs>=24).length;
+ const when=d=>{const ph=phase(d);if(ph==='past')return '<span class="when">Завершено</span>';if(ph==='live')return '<span class="when live">У дорозі</span>';const n=Math.round((pd(d.start)-TODAY)/864e5);return `<span class="when">через ${n} дн.</span>`};
+ return `
+ <div class="hello"><p>Вівторок, 29 вересня · сезон 2026: ${DEPS.length} виїздів, попереду ${DEPS.filter(d=>phase(d)==='soon').length}</p></div>
+ <div class="stats">
+  <button class="stat${late&&ON.sla?' alert':''}" data-act="goStatus" data-s="nocontact"><span class="v">${nc.length}</span><span class="l"><i class="dot" style="background:var(--st-deposit);box-shadow:0 0 0 2px var(--st-refund)"></i>Оплатили завдаток, не зв'язались${late?` · ${late} понад 24 год`:''}</span></button>
+  <button class="stat" data-act="goStatus" data-s="attention"><span class="v">${cnt('special')+cnt('refund')}</span><span class="l"><i class="dot" style="background:var(--st-special)"></i><i class="dot" style="background:var(--st-refund);margin-left:-4px"></i>Потребують уваги</span></button>
+  <button class="stat" data-act="scrollQueue"><span class="v">${pl.length}</span><span class="l"><i class="dot" style="background:var(--st-talk)"></i>Оплати Zelle на перевірці</span></button>
+  <button class="stat" data-act="nav" data-v="lists"><span class="v">${week}</span><span class="l"><i class="dot" style="background:var(--road)"></i>Виїздів цього тижня</span></button>
+ </div>
+ <div class="home-grid">
+  <div class="stack">
+   <section class="panel"><h2>Оплатили завдаток, але з ними ще не зв'язались <span class="cnt">${nc.length}</span></h2>
+    <p class="hint" style="margin:-6px 0 8px">Бронювання з сайту потрапляють сюди автоматично. Учасник уже отримав welcome-лист із наступними кроками. Менеджер має зв'язатися протягом 24 годин.</p>
+    ${nc.length?nc.map(p=>`<div class="q-item"><div class="grow"><button class="linkish" data-act="open" data-id="${p.id}">${esc(nm(p))}</button><small>${p.order} · ${esc(TYPES[typeOf(p)].name)}, ${drange(depOf(p.dep))} · менеджер ${esc(p.assignee)}</small>${waitLbl(p)}</div>
+     <button class="btn sm" data-act="contacted" data-id="${p.id}">Зв'язались</button><button class="btn sm pri" data-act="open" data-id="${p.id}">Відкрити</button></div>`).join(''):'<div class="empty">Усім новим учасникам уже написали</div>'}
+   </section>
+   <section class="panel"><h2 style="flex-wrap:wrap">Тури сезону <span class="cnt">${deps.length}</span><span style="flex:1"></span>
+    <span class="seg">${[['all','Усі'],['soon','Поточні й майбутні'],['past','Завершені']].map(([k,v])=>`<button class="${flt===k?'on':''}" data-act="homeTours" data-k="${k}">${v}</button>`).join('')}</span></h2>
+    ${deps.map(d=>{const ps=P.filter(p=>p.dep===d.id&&p.status!=='lost');const full=ps.filter(p=>p.status==='paid').length;const debt=ps.reduce((s,p)=>s+left(p),0);
+     return `<div class="tour-line${phase(d)==='past'?' past':''}"><span class="tpill T-${d.type}"><i></i>${esc(TYPES[d.type].name)}</span>
+      <div><div class="ttl">${drange(d)} ${when(d)}</div><div class="meta">${ps.length} учасників · ${full} оплатили повністю${debt?` · борг ${money(debt)}`:''}</div>
+      <div class="fillbar"><i style="width:${ps.length?Math.round(full/ps.length*100):0}%"></i></div></div>
+      <button class="btn sm" data-act="openList" data-dep="${d.id}">Список</button></div>`}).join('')}
+   </section>
+  </div>
+  <div class="stack">
+   <section class="panel" id="queue"><h2>Оплати Zelle на підтвердження <span class="cnt">${pl.length}</span></h2>
+    <p class="hint" style="margin:-6px 0 8px">Stripe підтверджується сам. Сюди потрапляють лише Zelle-оплати, які вніс менеджер. Після підтвердження учасник автоматично отримує повідомлення.</p>
+    ${pl.length?pl.map(o=>{const key=o.p.id+':'+o.k;return `<div class="q-item"><div class="grow"><button class="linkish" data-act="open" data-id="${o.p.id}">${esc(nm(o.p))}</button><small>${o.p.order} · <b>${money(o.x.amt)}</b> за ${esc(o.x.for==='tour'?'тур':ADD[o.x.for].name)} · додав(ла) ${esc(o.x.by)}, ${fd(o.x.date)}</small></div>
+     <button class="btn sm danger${S.arm===key?' armed':''}" data-act="delPay" data-id="${o.p.id}" data-k="${o.k}">${S.arm===key?'Так, видалити':'Видалити'}</button><button class="btn sm pri" data-act="confirmPay" data-id="${o.p.id}" data-k="${o.k}">Підтвердити</button></div>`}).join(''):'<div class="empty">Усі оплати підтверджено</div>'}
+   </section>
+   <section class="panel"><h2>Автоматизації сьогодні <span class="cnt">${LOG.length}</span><span style="flex:1"></span><button class="btn sm" data-act="nav" data-v="auto">Усі</button></h2>
+    ${LOG.slice(0,5).map(logRow).join('')}
+   </section>
+   <section class="panel"><h2>Відкриті задачі <span class="cnt">${tasks.length}</span></h2>
+    ${tasks.length?tasks.map(o=>`<div class="q-item"><div class="grow"><b>${esc(o.t.text)}</b><small><button class="linkish" style="font-weight:500" data-act="open" data-id="${o.p.id}">${esc(nm(o.p))} · ${o.p.order}</button></small></div>${spill(o.p.status)}</div>`).join(''):'<div class="empty">Задач немає</div>'}
+   </section>
+  </div>
+ </div>`;
+};
+const logRow=l=>`<div class="log-item"><time>${esc(l.t)}</time><div style="display:flex;gap:8px;align-items:center;min-width:0"><span class="bolt">${ic('bolt')}</span><b>${esc(RULE[l.rule].title)}</b></div><div class="lt">${l.pid&&byId(l.pid)?`<button class="linkish" style="font-weight:500" data-act="open" data-id="${l.pid}">${esc(l.text)}</button>`:esc(l.text)}</div></div>`;
+
+V.crm=()=>`
+ <div class="filters">
+  <label class="fl search-wrap-l">Пошук
+   <span class="search-wrap">${ic('search')}<input class="in" id="fq" type="search" placeholder="№ замовлення, ім'я, телефон або @telegram" value="${esc(S.f.q)}" autocomplete="off"></span></label>
+  <label class="fl">Тур<select class="in" id="ftype"><option value="">Усі тури</option>${Object.entries(TYPES).map(([k,t])=>`<option value="${k}"${S.f.type===k?' selected':''}>${esc(t.name)}</option>`).join('')}</select></label>
+  <label class="fl" id="depWrap"${S.f.type?'':' hidden'}>Дати туру<select class="in" id="fdep">${depOptions(S.f.type,S.f.dep)}</select></label>
+  <label class="fl">Джерело<select class="in" id="fsrc"><option value="">Усі джерела</option>${SOURCES.map(s=>`<option${S.f.source===s?' selected':''}>${s}</option>`).join('')}</select></label>
+  <label class="fl">Статус<select class="in" id="fst"><option value="">Усі статуси</option><option value="attention"${S.f.status==='attention'?' selected':''}>Потребують уваги</option>${Object.entries(STATUS).map(([k,v])=>`<option value="${k}"${S.f.status===k?' selected':''}>${v}</option>`).join('')}</select></label>
+  <button class="btn" data-act="clearF">Очистити</button>
+ </div>
+ <div class="chips" id="chips"></div>
+ <div class="summary" id="sum"></div>
+ <div class="tbl-wrap"><table class="rows"><thead><tr><th>№</th><th>Учасник</th><th>Тур і дати</th><th>Оплата</th><th>Optional fun</th><th>Джерело</th><th>Статус</th><th>Створено</th><th>Остання нотатка</th></tr></thead><tbody id="rows"></tbody></table></div>`;
+const depOptions=(type,sel)=>'<option value="">Усі дати</option>'+DEPS.filter(d=>d.type===type).map(d=>`<option value="${d.id}"${sel===d.id?' selected':''}>${drange(d)}${phase(d)==='past'?' · completed':''}</option>`).join('');
+function filtered(){
+ const toks=norm(S.f.q).split(' ').filter(Boolean);
+ return P.filter(p=>{
+  const d=depOf(p.dep);
+  if(S.f.type&&d.type!==S.f.type)return false;
+  if(S.f.dep&&p.dep!==S.f.dep)return false;
+  if(S.f.source&&p.source!==S.f.source)return false;
+  if(S.f.status==='attention'){if(!['special','refund'].includes(p.status))return false}
+  else if(S.f.status&&p.status!==S.f.status)return false;
+  if(toks.length){const hay=norm([p.first,p.last,p.order,p.order.replace('RV-',''),p.phone,p.phone.replace(/\D/g,''),p.tg,p.email].join(' '));if(!toks.every(t=>hay.includes(t.replace(/^\+/,''))))return false}
+  return true;
+ }).sort((a,b)=>(a.status==='nocontact')===(b.status==='nocontact')?b.order.localeCompare(a.order):a.status==='nocontact'?-1:1);
+}
+function renderRows(){
+ const list=filtered();
+ const base=P.filter(p=>{const d=depOf(p.dep);return(!S.f.type||d.type===S.f.type)&&(!S.f.dep||p.dep===S.f.dep)});
+ $('#chips').innerHTML=Object.entries(STATUS).map(([k,v])=>`<button class="chip S-${k}${S.f.status===k?' on':''}" data-act="chip" data-s="${k}"><i></i>${v} <b>${base.filter(p=>p.status===k).length}</b></button>`).join('');
+ const due=list.filter(p=>p.status!=='lost').reduce((s,p)=>s+left(p),0);
+ $('#sum').innerHTML=`<span>Знайдено: <b>${list.length}</b></span><span>Сплачено: <b>${money(list.reduce((s,p)=>s+paid(p),0))}</b></span><span>Залишок до оплати: <b>${money(due)}</b></span>`;
+ $('#rows').innerHTML=list.length?list.map(p=>{
+  const ln=p.notes[p.notes.length-1];
+  return `<tr class="S-${p.status}" data-open="${p.id}">
+   <td><span class="order">${p.order}</span></td>
+   <td><div class="nm">${esc(nm(p))}${p.buddies.length?`<span class="ico-link" title="Їде з: ${esc(p.buddies.map(b=>nm(byId(b))).join(', '))}">+${p.buddies.length}</span>`:''}</div><div class="sub">${esc(p.tg)} · ${esc(p.phone)}</div></td>
+   <td>${tpill(p.dep)}</td>
+   <td>${payCell(p)}</td>
+   <td class="acts">${p.addons.length?p.addons.map(a=>esc(ADD[a].name)).join('<br>'):'<span class="sub">—</span>'}</td>
+   <td>${esc(p.source)}${p.ref?`<div class="sub">${esc(p.ref)}</div>`:''}</td>
+   <td>${stSelect(p,'rowStatus')}${waitLbl(p)}</td>
+   <td class="mono sub">${fd(p.created)}</td>
+   <td><div class="note-cell">${ln?esc(ln.text):'—'}</div></td></tr>`}).join(''):`<tr class="S-new"><td colspan="9"><div class="empty" style="border:0">Нікого не знайдено. Спробуйте номер замовлення або змініть фільтри.</div></td></tr>`;
+}
+
+V.chat=()=>{
+ const c=CONVS.find(x=>x.id===S.chat.active)||CONVS[0];
+ const p=c.pid?byId(c.pid):null;
+ return `
+ <div class="chan-tabs">
+  <button class="chan on">${ic('tg')}Telegram <small>${CONVS.reduce((s,x)=>s+x.unread,0)} нових</small></button>
+  <button class="chan" disabled title="Після верифікації Meta">${ic('wa')}WhatsApp <small>скоро</small></button>
+  <button class="chan" disabled title="Після верифікації Meta">${ic('ig')}Instagram <small>скоро</small></button>
+  <span style="flex:1"></span>
+  <button class="btn sm" data-act="simulate">Симулювати нове повідомлення</button>
+ </div>
+ <div class="inbox${S.chat.threaded?' threaded':''}">
+  <div class="conv-list">${CONVS.map(x=>{const last=x.msgs[x.msgs.length-1]||{from:'bot',text:''};const pp=x.pid?byId(x.pid):null;return `
+   <button class="conv${x.id===c.id?' on':''}" data-act="conv" data-id="${x.id}"><span class="ava">${esc(x.name[0])}</span>
+    <span class="grow"><span class="top-l"><b>${esc(x.name)}</b>${x.unread?`<span class="unread">${x.unread}</span>`:''}<small>${esc(x.time)}</small></span>
+    <p>${last.from==='client'?'':(last.from==='bot'?(last.auto?'Авто: ':'Бот: '):'Ви: ')}${esc(last.text)}</p>
+    ${pp?`<span class="spill S-${pp.status}" style="font-size:11.5px;margin-top:4px"><i></i>${pp.order} · ${STATUS[pp.status]}</span>`:'<span class="sub" style="font-size:11.5px">Не в CRM</span>'}</span></button>`}).join('')}</div>
+  <div class="thread">
+   <div class="th-head"><button class="btn sm back-btn" data-act="backConv">${ic('back')}</button><div class="grow"><b>${esc(c.name)}</b><small>${esc(c.handle)} · Telegram</small></div>
+    <label class="fl" style="flex-direction:row;align-items:center;gap:8px">Відповідає<select class="in" id="assignee" style="width:auto;padding:6px 10px">${MGR.map(m=>`<option${m===c.assignee?' selected':''}>${m}</option>`).join('')}</select></label></div>
+   <div class="msgs" id="msgs">${c.msgs.map(m=>`<div class="msg ${m.from}${m.auto?' auto':''}">${m.from!=='client'?`<span class="who">${m.from==='bot'?(m.auto?'Автоматичне повідомлення':'Бот'):esc(m.by)}</span>`:''}${esc(m.text)}<small>${esc(m.t)}</small></div>`).join('')}</div>
+   <div class="composer">
+    <div class="quick">${SCRIPTS.filter(s=>s.quick).map(s=>`<button data-act="quick" data-sid="${s.id}" title="Вставити скрипт">${esc(s.title)}</button>`).join('')}</div>
+    <div class="comp-row"><textarea class="in" id="msgIn" rows="2" placeholder="Напишіть відповідь або оберіть скрипт вище…"></textarea><button class="btn pri" data-act="send" aria-label="Надіслати">${ic('send')}Надіслати</button></div>
+   </div>
+  </div>
+  <div class="ctx"><h3>Картка в CRM</h3>
+   ${p?`<div class="mini S-${p.status}"><div class="order">${p.order}</div><b style="font-size:15px">${esc(nm(p))}</b>${tpill(p.dep)}<div>${payCell(p)}</div>${spill(p.status)}${waitLbl(p)}
+     <button class="btn sm pri" data-act="open" data-id="${p.id}">Відкрити картку</button></div>
+     ${p.status==='nocontact'&&ON.contacted?'<p class="hint" style="margin:0;font-size:12px">Щойно ви відповісте тут, статус «не зв\'язались» зміниться автоматично.</p>':''}
+     ${p.notes.length?`<h3>Остання нотатка</h3><div class="nt"><small>${esc(p.notes[p.notes.length-1].by)}</small>${esc(p.notes[p.notes.length-1].text)}</div>`:''}`
+   :`<div class="empty">Цієї людини ще немає в CRM</div><button class="btn pri" data-act="leadFromChat">${ic('plus')}Створити лід із чату</button>`}
+  </div>
+ </div>`;
+};
+
+function ambData(){
+ return P.filter(p=>p.code).map(a=>{const fr=P.filter(p=>p.ref===a.code);const ok=fr.filter(p=>['deposit','paid','nocontact'].includes(p.status));const n=a.past+ok.length;const earned=n*50;return {a,fr,ok,n,earned,due:Math.max(0,earned-a.paidOut)}}).sort((x,y)=>y.n-x.n);
+}
+const TIERS=[{n:3,prize:'Квиток на Алькатрас'},{n:5,prize:'Політ над Лас-Вегасом'},{n:10,prize:'Заїзд на Ferrari'}];
+V.amb=()=>{
+ const rows=ambData();const due=rows.reduce((s,r)=>s+r.due,0);
+ return `
+ <div class="amb-top">
+  <section class="panel"><h2>Як працює програма</h2>
+   <p class="hint" style="margin:0 0 12px">Учасник отримує промокод після бронювання. За кожного друга, який забронював тур, до $50. Виплати щопонеділка. Бронювання за промокодом зараховуються автоматично.</p>
+   <div class="tiers">${TIERS.map(t=>`<div class="tier"><b>${t.n}</b><span>друзів</span><strong>${t.prize}</strong></div>`).join('')}</div>
+   <p class="hint" style="margin:10px 0 0;font-size:12px">Пороги бонусів тут приклад, їх можна змінити під ваші правила.</p>
+  </section>
+  <section class="panel payout"><h2>Виплата в понеділок, 5 жовтня</h2><span class="v num">${money(due)}</span><span class="hint">${rows.filter(r=>r.due).length} амбасадорів чекають на виплату</span></section>
+ </div>
+ <section class="panel"><h2>Амбасадори <span class="cnt">${rows.length}</span></h2>
+  <div class="tbl-wrap"><table class="plain"><thead><tr><th>Амбасадор</th><th>Промокод</th><th>Друзів</th><th>Зароблено</th><th>До виплати</th><th>Наступний бонус</th><th></th></tr></thead><tbody>
+  ${rows.map(r=>{const next=TIERS.find(t=>r.n<t.n);const prev=[...TIERS].reverse().find(t=>r.n>=t.n);return `<tr>
+   <td><button class="linkish" data-act="open" data-id="${r.a.id}">${esc(nm(r.a))}</button><div class="sub">${r.a.order}</div></td>
+   <td><span class="code">${r.a.code}</span></td>
+   <td class="num"><b>${r.n}</b>${r.fr.length?` <button class="btn sm ghost" data-act="toggleFr" data-id="${r.a.id}">зараз: ${r.fr.length} ▾</button>`:''}</td>
+   <td class="num">${money(r.earned)}</td>
+   <td class="num"><b style="color:${r.due?'var(--st-refund)':'var(--muted)'}">${money(r.due)}</b></td>
+   <td>${next?`<div class="prog"><div class="pbar"><i style="width:${Math.round(r.n/next.n*100)}%"></i></div><small>${r.n}/${next.n} · ${next.prize}</small></div>`:`<span class="spill S-paid"><i></i>${prev.prize}</span>`}</td>
+   <td>${r.due?`<button class="btn sm" data-act="payout" data-id="${r.a.id}">Позначити виплату</button>`:'<span class="sub">Виплачено</span>'}</td></tr>
+   <tr data-fr="${r.a.id}" hidden><td colspan="7" class="friends"><div class="buddies">${r.fr.map(p=>`<span class="buddy"><span class="spill S-${p.status}"><i></i></span><button class="go" data-act="open" data-id="${p.id}">${esc(nm(p))}</button></span>`).join('')}</div>Зараховуються друзі, які оплатили завдаток або весь тур.</td></tr>`}).join('')}
+  </tbody></table></div></section>`;
+};
+
+/* ---------- partnerships ---------- */
+const pBookings=pt=>pt.code?P.filter(p=>p.ref===pt.code&&p.status!=='lost'):[];
+const delivCount=(pt,side)=>{const a=pt.deliv.filter(x=>x.side===side);return a.length?a.filter(x=>x.done).length+'/'+a.length:'—'};
+V.partners=()=>{
+ const list=PARTNERS.filter(x=>(!S.pStage||x.stage===S.pStage)&&(!S.pType||x.type===S.pType));
+ const active=PARTNERS.filter(x=>x.stage==='active');
+ const bk=PARTNERS.reduce((s,x)=>s+pBookings(x).length,0);
+ const overdue=PARTNERS.filter(x=>x.next&&x.next.date<TODAY_S&&!['ended','paused'].includes(x.stage)).length;
+ return `
+ <div class="howto"><b>How partnerships work.</b> Partners don't pay us and we don't pay them. We exchange value: they promote our tours, give our students better terms or upgrade the experience, and we bring them students, content or exposure. This page tracks who we work with, what each side promised, whether it happened and what it brought. <b>All partners below are examples.</b></div>
+ <div class="stats">
+  <div class="stat"><span class="v">${active.length}</span><span class="l"><i class="dot" style="background:var(--st-paid)"></i>Active partners</span></div>
+  <div class="stat"><span class="v">${PARTNERS.filter(x=>['lead','contacted','talks'].includes(x.stage)).length}</span><span class="l"><i class="dot" style="background:var(--st-deposit)"></i>In the pipeline</span></div>
+  <div class="stat"><span class="v">${bk}</span><span class="l"><i class="dot" style="background:var(--road)"></i>Bookings via partner codes</span></div>
+  <div class="stat${overdue?' alert':''}"><span class="v">${overdue}</span><span class="l"><i class="dot" style="background:var(--st-refund)"></i>Next steps overdue</span></div>
+ </div>
+ <div class="toolbar">
+  <div class="chips" style="margin:0">${Object.entries(STAGES).map(([k,v])=>`<button class="chip ${STAGE_CLS[k]}${S.pStage===k?' on':''}" data-act="pStageF" data-s="${k}"><i></i>${v} <b>${PARTNERS.filter(x=>x.stage===k).length}</b></button>`).join('')}</div>
+  <span class="sp"></span>
+  <select class="in" id="pTypeF" style="width:auto"><option value="">All types</option>${PTYPES.map(t=>`<option${S.pType===t?' selected':''}>${t}</option>`).join('')}</select>
+  <button class="btn pri" data-act="newP">${ic('plus')}New partner</button>
+ </div>
+ <div class="tbl-wrap"><table class="rows"><thead><tr><th>Partner</th><th>They give</th><th>We give</th><th>Their promises</th><th>Our promises</th><th>Bookings</th><th>Next step</th><th>Owner</th><th>Stage</th></tr></thead><tbody>
+ ${list.length?list.map(x=>{const b=pBookings(x).length;const od=x.next&&x.next.date<TODAY_S&&!['ended','paused'].includes(x.stage);return `<tr class="${STAGE_CLS[x.stage]}" data-openp="${x.id}">
+  <td><div class="nm">${esc(x.name)}</div><div class="sub">${esc(x.type)} · ${esc(x.city)}</div></td>
+  <td class="cell-ex">${esc(x.give)}</td><td class="cell-ex">${esc(x.get)}</td>
+  <td class="num">${delivCount(x,'them')}</td><td class="num">${delivCount(x,'us')}</td>
+  <td class="num">${x.code?`<b>${b}</b><div class="sub">${esc(x.code)}</div>`:'<span class="sub">—</span>'}</td>
+  <td>${x.next?`<div style="font-size:12.5px;max-width:200px">${esc(x.next.text)}</div><div class="sub ${od?'due-red':''}">${fd(x.next.date)}${od?' · overdue':''}</div>`:'—'}</td>
+  <td>${esc(x.owner)}</td>
+  <td><select class="stsel ${STAGE_CLS[x.stage]}" data-act="pStage" data-id="${x.id}" aria-label="Stage">${Object.entries(STAGES).map(([k,v])=>`<option value="${k}"${k===x.stage?' selected':''}>${v}</option>`).join('')}</select></td></tr>`}).join('')
+ :'<tr class="S-new"><td colspan="9"><div class="empty" style="border:0">No partners match these filters</div></td></tr>'}
+ </tbody></table></div>`;
+};
+
+V.groups=()=>{
+ const row=d=>{const n=P.filter(p=>p.dep===d.id&&['paid','special'].includes(p.status)).length;const ed=S.admin&&S.gcEdit===d.id;
+  return `<div class="gc-row"><b>${drange(d)}</b><span class="sub">${n} у чаті${phase(d)==='past'?' · завершено':''}</span>
+   ${ed?`<input class="in" id="gcIn" value="${esc(d.chat)}" placeholder="https://chat.whatsapp.com/…">`:(d.chat?`<span class="lnk"><a href="${esc(d.chat)}" target="_blank" rel="noopener">${esc(d.chat.replace('https://',''))}</a></span>`:'<span class="none">Посилання ще не додано</span>')}
+   <span class="gc-acts">${ed?`<button class="btn sm pri" data-act="gcSave" data-id="${d.id}">Зберегти</button><button class="btn sm" data-act="gcCancel">Скасувати</button>`
+    :`${d.chat?`<button class="btn sm" data-act="copy" data-t="${esc(d.chat)}">${ic('copy')}Копіювати</button>`:''}${S.admin?`<button class="btn sm" data-act="gcEdit" data-id="${d.id}">${ic('edit')}${d.chat?'Змінити':'Додати'}</button>`:''}`}</span></div>`};
+ return `
+ <div class="lock">${ic('lock')}<span style="flex:1">${S.admin?'Режим адміністратора: можна додавати та змінювати посилання.':'Посилання бачать усі. Змінювати їх може лише адміністратор. Після повної оплати посилання надсилається учаснику автоматично.'}</span>
+  <label class="opt"><input type="checkbox" id="gcPast"${S.gcPast?' checked':''}>Показати завершені тури</label>
+  <label class="switch"><input type="checkbox" id="adminSw"${S.admin?' checked':''}><span class="trk"></span>Адміністратор</label></div>
+ ${Object.keys(TYPES).map(t=>{const ds=DEPS.filter(d=>d.type===t&&(S.gcPast||phase(d)!=='past'));if(!ds.length)return '';return `<section class="panel gc-group"><h2><span class="tpill T-${t}"><i></i>${esc(TYPES[t].name)}</span></h2>${ds.map(row).join('')}</section>`}).join('')}
+ <section class="panel gc-group"><h2>Інші чати</h2>
+  ${S.extraChats.map(x=>`<div class="gc-row"><b>${esc(x.name)}</b><span></span><span class="lnk"><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.url.replace('https://',''))}</a></span><span class="gc-acts"><button class="btn sm" data-act="copy" data-t="${esc(x.url)}">${ic('copy')}Копіювати</button>${S.admin?`<button class="btn sm" data-act="xDel" data-id="${x.id}" aria-label="Видалити">${ic('trash')}</button>`:''}</span></div>`).join('')}
+  ${S.admin?`<div class="row-form" style="margin-top:10px"><input class="in" id="xName" placeholder="Назва чату"><input class="in" id="xUrl" placeholder="Посилання"><button class="btn pri" data-act="xAdd">${ic('plus')}Додати</button></div>`:''}
+ </section>`;
+};
+
+const hlVars=t=>esc(t).replace(/\{(\w+)\}/g,'<span class="var">{$1}</span>');
+V.scripts=()=>{
+ const ed=S.scriptEdit;const cur=ed&&ed!=='new'?SCRIPT(ed):null;
+ const cats=[...new Set(SCRIPTS.map(s=>s.cat))];
+ const toks=norm(S.scQ);
+ const list=SCRIPTS.filter(s=>(!S.scCat||s.cat===S.scCat)&&(!toks||norm(s.title+' '+s.text).includes(toks)));
+ const form=ed?`<section class="panel" style="margin-bottom:14px"><h2>${cur?'Edit script':'New script'}</h2>
+   <div class="grid2" style="margin-bottom:10px"><label class="fl">Title<input class="in" id="scT" value="${esc(cur?cur.title:'')}" placeholder="e.g. First contact after deposit"></label>
+   <label class="fl">Category<input class="in" id="scC" value="${esc(cur?cur.cat:'')}" list="scCats" placeholder="e.g. Payments"><datalist id="scCats">${cats.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></label></div>
+   <label class="fl">Text<textarea class="in" id="scX" rows="7" placeholder="Message to the student. Use variables like {first_name}">${esc(cur?cur.text:'')}</textarea></label>
+   <label class="opt" style="margin-top:10px"><input type="checkbox" id="scQ2"${!cur||cur.quick?' checked':''}>Show as a quick reply in the Chat bot</label>
+   <div class="row-form" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-act="scCancel">Cancel</button><button class="btn pri" data-act="scSave">Save</button></div></section>`:'';
+ return `<div class="howto"><b>Ready-made messages for students.</b> Variables like <span class="var">{first_name}</span>, <span class="var">{tour}</span>, <span class="var">{balance}</span> or <span class="var">{payment_link}</span> fill in automatically when a script is used in the Chat bot or sent by an automation. Scripts marked “quick reply” appear as buttons above the chat box.</div>
+ <div class="toolbar">
+  <div class="chips" style="margin:0"><button class="chip${!S.scCat?' on':''}" data-act="scCat" data-c="">All <b>${SCRIPTS.length}</b></button>${cats.map(c=>`<button class="chip${S.scCat===c?' on':''}" data-act="scCat" data-c="${esc(c)}">${esc(c)} <b>${SCRIPTS.filter(s=>s.cat===c).length}</b></button>`).join('')}</div>
+  <span class="sp"></span>
+  <span class="search-wrap" style="min-width:200px">${ic('search')}<input class="in" id="scSearch" type="search" placeholder="Search scripts" value="${esc(S.scQ)}"></span>
+  ${ed?'':`<button class="btn pri" data-act="scNew">${ic('plus')}New script</button>`}
+ </div>
+ ${form}
+ ${list.length?`<div class="scripts">${list.map(s=>`<article class="panel scard"><span class="cat">${esc(s.cat||'No category')}${s.quick?' · quick reply':''}</span><h2 style="margin:0">${esc(s.title)}</h2><p>${hlVars(s.text)}</p>
+   <div class="row-form"><button class="btn sm" data-act="copy" data-t="${esc(s.text)}">${ic('copy')}Copy</button><button class="btn sm" data-act="scEdit" data-id="${s.id}">${ic('edit')}Edit</button><button class="btn sm" data-act="scDel" data-id="${s.id}" aria-label="Delete">${ic('trash')}</button></div></article>`).join('')}</div>`
+  :`<div class="empty" style="padding:40px">No scripts found</div>`}`;
+};
+
+V.payments=()=>`<div class="doc"><div class="howto" style="margin:0"><b>Guide for managers:</b> how we take payments, what happens automatically, and what to do in tricky situations. Any section can be edited.</div>
+ ${S.paydocs.map((s,k)=>`<section class="panel"><div class="hd"><h2>${esc(s.h)}</h2>${S.paydocEdit===k?'':`<button class="btn sm" data-act="pdEdit" data-k="${k}">${ic('edit')}Edit</button>`}</div>
+  ${S.paydocEdit===k?`<label class="fl" style="margin-bottom:8px">Heading<input class="in" id="pdH" value="${esc(s.h)}"></label><textarea class="in" id="pdT" rows="10">${esc(s.t)}</textarea>
+   <div class="row-form" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-act="pdDel" data-k="${k}">${ic('trash')}Delete section</button><button class="btn" data-act="pdCancel">Cancel</button><button class="btn pri" data-act="pdSave" data-k="${k}">Save</button></div>`
+  :(s.t?`<p>${esc(s.t)}</p>`:'<div class="empty">This section is empty. Click “Edit” to add text.</div>')}</section>`).join('')}
+ <div><button class="btn" data-act="pdAdd">${ic('plus')}Add section</button></div></div>`;
+
+V.auto=()=>`
+ <div class="howto"><b>What runs by itself.</b> Each rule below works without a manager. Turn a rule off to handle that step by hand. In this prototype the rules really run: try “Simulate website deposit” at the top, then send a Stripe link from a participant card and mark it as paid.</div>
+ <div class="auto-grid">
+  <section class="panel"><h2>Rules <span class="cnt">${RULES.filter(r=>ON[r.id]).length} of ${RULES.length} on</span></h2>
+   ${RULES.map(r=>{const n=LOG.filter(l=>l.rule===r.id).length;return `<div class="rule${ON[r.id]?'':' off'}"><div class="rt"><span class="bolt">${ic('bolt')}</span>${esc(r.title)}${n?`<small>${n} today</small>`:''}</div>
+    <div class="flow"><b>When</b><span>${esc(r.when)}</span><b>Then</b><span>${esc(r.then)}</span></div>
+    <label class="switch" aria-label="${esc(r.title)}"><input type="checkbox" data-rule="${r.id}"${ON[r.id]?' checked':''}><span class="trk"></span></label></div>`}).join('')}
+  </section>
+  <section class="panel"><h2>Activity log <span class="cnt">${LOG.length}</span></h2>${LOG.length?LOG.map(logRow).join(''):'<div class="empty">Nothing yet today</div>'}</section>
+ </div>`;
+
+function listRows(){
+ const L=S.list;
+ let ps=P.filter(p=>(!L.type||typeOf(p)===L.type)&&(!L.dep||p.dep===L.dep));
+ if(!L.lost)ps=ps.filter(p=>p.status!=='lost');
+ if(L.debt)ps=ps.filter(p=>left(p)>0);
+ return ps.sort((a,b)=>a.dep.localeCompare(b.dep)||(a.last+a.first).localeCompare(b.last+b.first));
+}
+V.lists=()=>{
+ const L=S.list;
+ return `<div class="list-bar">
+  <label class="fl">Тур<select class="in" id="ltype"><option value="">Оберіть тур</option>${Object.entries(TYPES).map(([k,t])=>`<option value="${k}"${L.type===k?' selected':''}>${esc(t.name)}</option>`).join('')}</select></label>
+  <label class="fl"${L.type?'':' hidden'}>Дати<select class="in" id="ldep">${depOptions(L.type,L.dep)}</select></label>
+  <div class="opts"><label class="opt"><input type="checkbox" id="ldebt"${L.debt?' checked':''}>Лише з боргом</label><label class="opt"><input type="checkbox" id="llost"${L.lost?' checked':''}>Показати тих, хто відмовився</label></div>
+  <div class="row-form" style="flex:0 0 auto"><button class="btn" data-act="copyList">${ic('copy')}Копіювати для Excel</button><button class="btn pri" data-act="dlList">${ic('down')}Завантажити CSV</button></div>
+ </div><div id="listOut"></div>`;
+};
+function renderList(){
+ const ps=listRows();const L=S.list;
+ const debt=ps.filter(p=>left(p)>0&&p.status!=='lost');
+ const title=L.dep?TYPES[depOf(L.dep).type].name+', '+drange(depOf(L.dep)):L.type?TYPES[L.type].name+', усі дати':'Усі тури';
+ $('#listOut').innerHTML=`<div class="list-sum"><div><b>${ps.length}</b>учасників</div><div><b>${ps.filter(p=>p.status==='paid').length}</b>оплатили тур повністю</div><div class="due"><b>${debt.length}</b>з боргом</div><div class="due"><b>${money(debt.reduce((s,p)=>s+left(p),0))}</b>сума боргу</div></div>
+ <section class="panel"><h2>${esc(title)}</h2><p class="hint" style="margin:-4px 0 10px">Колонку «Нотатка для гідів» можна заповнювати прямо тут: ранній виїзд, запізнення, пропущена активність. Нотатка зберігається в картці учасника.</p>
+ <div class="tbl-wrap"><table class="plain" style="min-width:1100px"><thead><tr><th>№</th><th>Учасник</th><th>Телефон</th><th>Telegram</th>${L.dep?'':'<th>Тур</th>'}<th>Optional fun</th><th>Сплачено</th><th>Залишок</th><th>Статус</th><th style="min-width:230px">Нотатка для гідів</th></tr></thead><tbody>
+ ${ps.length?ps.map(p=>`<tr><td class="order">${p.order}</td><td><button class="linkish" data-act="open" data-id="${p.id}">${esc(p.last+' '+p.first)}</button></td><td class="num" style="white-space:nowrap">${esc(p.phone)}</td><td>${esc(p.tg)}</td>${L.dep?'':`<td>${tpill(p.dep)}</td>`}
+  <td style="font-size:12.5px">${p.addons.map(a=>esc(ADD[a].name)+(itemLeft(p,a)?` <span style="color:var(--st-refund)">(не сплачено)</span>`:'')).join('<br>')||'—'}</td><td class="num">${money(paid(p))}</td><td class="num"${left(p)&&p.status!=='lost'?' style="color:var(--st-refund);font-weight:600"':''}>${p.status==='lost'?'—':money(left(p))}</td><td>${spill(p.status)}</td>
+  <td><input class="gnote" data-gnote="${p.id}" value="${esc(p.gnote)}" placeholder="Додати нотатку…" aria-label="Нотатка для гідів"></td></tr>`).join('')
+  :`<tr><td colspan="10"><div class="empty" style="border:0">Немає учасників за цими умовами</div></td></tr>`}
+ </tbody></table></div></section>`;
+}
+function listTable(sep){
+ const q=v=>{v=String(v);return sep===','&&/[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v.replace(/[\t\n]/g,' ')};
+ const head=['№','Прізвище','Ім\'я','Телефон','Telegram','Email','Tour','Dates','Optional fun','Сплачено','Залишок','Статус','Нотатка для гідів'];
+ const rows=listRows().map(p=>{const d=depOf(p.dep);return [p.order,p.last,p.first,p.phone,p.tg,p.email,TYPES[d.type].name,drange(d),p.addons.map(a=>ADD[a].name+(itemLeft(p,a)?' (unpaid)':'')).join('; '),paid(p),p.status==='lost'?0:left(p),STATUS[p.status],p.gnote]});
+ return [head,...rows].map(r=>r.map(q).join(sep)).join('\n');
+}
+
+/* ================= drawer: participant ================= */
+function renderDrawer(){
+ const dr=$('#drawer');
+ if(S.openP){renderPartner();return}
+ if(!S.open){dr.classList.remove('on');$('#scrim').classList.remove('on');return}
+ const p=byId(S.open);const d=depOf(p.dep);const t=d.type;
+ const mates=P.filter(x=>x.dep===p.dep&&x.id!==p.id&&!p.buddies.includes(x.id));
+ const refBy=p.ref?P.find(x=>x.code===p.ref):null;const refP=p.ref?PARTNERS.find(x=>x.code===p.ref):null;
+ const its=itemsOf(p);const firstDue=its.find(f=>itemLeft(p,f)-itemPend(p,f)>0)||'tour';
+ const itemTag=f=>{const l=itemLeft(p,f),pe=itemPend(p,f),pr=itemPrice(p,f);if(!l)return '<span class="tag ok">Сплачено</span>';if(itemLink(p,f))return '<span class="tag link">Посилання надіслано</span>';if(pe)return '<span class="tag wait">На перевірці</span>';if(l<pr)return '<span class="tag wait">Частково</span>';return '<span class="tag none">Не сплачено</span>'};
+ const rem=reminders(p);const sugg=itemLeft(p,firstDue)-itemPend(p,firstDue);
+ dr.innerHTML=`
+ <div class="dr-head S-${p.status}">
+  <div class="dr-row"><span class="order">Order ${p.order}</span>${stSelect(p,'drStatus',true)}<span class="sp"></span><button class="xbtn" data-act="close" aria-label="Close">${ic('x')}</button></div>
+  <h2 class="dr-name">${esc(nm(p))}</h2>
+  <div class="meta-line"><span>${esc(p.phone)}</span><span>${esc(p.tg)}</span><span>${esc(p.email)}</span><span>Booked ${fd(p.created)}</span></div>
+  ${p.status==='nocontact'?`<div class="dr-row"><span class="wait" style="margin:0">${p.hrs<1?'Booked just now':'Waiting '+p.hrs+' h'} · nobody contacted yet</span><span class="sp"></span><button class="btn sm pri" data-act="contacted" data-id="${p.id}">Mark as contacted</button></div>`:''}
+ </div>
+ <div class="dr-body">
+  <div class="blk tourblk T-${t}"><h3>Tour</h3><div class="tn">${esc(TYPES[t].name)}</div><div class="td">${drange(d)}, 2026 · ${TYPES[t].days}</div><div class="tr">${esc(TYPES[t].route)}</div>
+   <label class="fl" style="margin-top:10px">Change tour or dates<select class="in" data-act="chDep" data-id="${p.id}">${DEPS.filter(x=>phase(x)!=='past'||x.id===p.dep).map(x=>`<option value="${x.id}"${x.id===p.dep?' selected':''}>${esc(TYPES[x.type].name)} · ${drange(x)}</option>`).join('')}</select></label></div>
+
+  <div class="blk"><h3>Менеджер</h3><select class="in" data-act="chMgr" data-id="${p.id}">${MGR.map(m=>`<option${m===p.assignee?' selected':''}>${m}</option>`).join('')}</select></div>
+
+  <div class="blk"><h3>Оплата</h3>
+   <div class="kv"><span>Тур</span><b>${money(itemPrice(p,'tour'))}</b><span>Optional fun</span><b>${money(total(p)-itemPrice(p,'tour'))}</b><span class="tot">Разом</span><b class="tot">${money(total(p))}</b></div>
+   <div class="bigpay"><div class="ok"><small>Сплачено</small><b>${money(paid(p))}</b></div><div class="due"><small>Залишилось</small><b>${p.status==='lost'?'—':money(left(p))}</b></div></div>
+   <div class="items">${its.map(f=>`<div class="item"><span class="iname">${f==='tour'?'Tour: ':''}${esc(itemName(p,f))}</span>${itemTag(f)}<span class="isub">Сплачено ${money(itemPaid(p,f))} з ${money(itemPrice(p,f))}${itemPend(p,f)?` · ${money(itemPend(p,f))} ${itemLink(p,f)?'чекає оплати за посиланням':'на перевірці'}`:''}${f==='tour'&&itemPaid(p,f)>=100&&itemLeft(p,f)?' · завдаток $100 вже врахований':''}</span></div>`).join('')}</div>
+   ${p.payments.length?`<h3 style="margin-top:14px">Історія оплат</h3><div class="plist">${p.payments.map((x,k)=>{const key=p.id+':'+k;return `<div class="pitem"><div class="grow"><b class="num">${money(x.amt)}</b> · ${esc(x.for==='tour'?'Tour':ADD[x.for].name)} · ${esc(x.method)}<br><small>${fd(x.date)} · ${esc(x.by)}${x.conf?` · підтвердив(ла) ${esc(x.conf)}`:''}</small></div>${x.ok?'<span class="tag ok">Підтверджено</span>'
+     :x.link?`<span class="tag link">Посилання надіслано</span><button class="btn sm danger${S.arm===key?' armed':''}" data-act="delPay" data-id="${p.id}" data-k="${k}">${S.arm===key?'Так, скасувати':'Скасувати'}</button><button class="btn sm pri" data-act="stripePaid" data-id="${p.id}" data-k="${k}" title="Демо: імітує оплату учасником">Демо: оплачено</button>`
+     :`<button class="btn sm danger${S.arm===key?' armed':''}" data-act="delPay" data-id="${p.id}" data-k="${k}">${S.arm===key?'Так, видалити':'Видалити'}</button><button class="btn sm pri" data-act="confirmPay" data-id="${p.id}" data-k="${k}">Підтвердити</button>`}</div>`}).join('')}</div>`:'<p class="hint" style="margin:0 0 10px">Оплат ще не було</p>'}
+   <h3 style="margin-top:14px">Нова оплата</h3>
+   <div class="row-form"><select class="in" id="payFor" style="flex:2 1 180px">${its.map(f=>`<option value="${f}"${f===firstDue?' selected':''}>${f==='tour'?'Tour':esc(ADD[f].name)} · залишок ${money(itemLeft(p,f))}</option>`).join('')}</select>
+    <input class="in" id="payAmt" type="number" min="1" inputmode="decimal" placeholder="Сума, $" value="${sugg>0?sugg:''}"><select class="in" id="payM"><option value="stripe">Надіслати Stripe-посилання</option><option value="zelle">Zelle (на перевірку)</option><option value="cash">Готівка</option></select><button class="btn pri" data-act="addPay" data-id="${p.id}">${ic('plus')}Додати</button></div>
+   <p class="hint" style="margin:8px 0 0;font-size:12px">Stripe-посилання летить учаснику в Telegram, а оплата підтверджується сама. Zelle іде на перевірку до фінансової команди. Помилкову оплату на перевірці можна видалити.</p>
+   ${rem?`<h3 style="margin-top:14px">Автоматичні нагадування про залишок${ON.reminders?'':' (вимкнено)'}</h3><div class="remind">${rem.map(r=>`<span class="${r.sent&&ON.reminders?'sent':''}">${r.n} дн. до туру · ${fd(r.date)}${r.sent&&ON.reminders?' · надіслано':''}</span>`).join('')}</div>`:''}
+   ${p.auto.length?`<div class="autolog"><h3 style="margin:10px 0 0">Автоматичні повідомлення учаснику</h3>${p.auto.slice().reverse().map(a=>`<div class="nt"><small>${esc(a.channel||'Telegram')} · ${fd(a.date)}</small>${esc(a.text)}</div>`).join('')}</div>`:''}
+  </div>
+
+  <div class="blk"><h3>Optional fun</h3><div class="checks">${ADDONS.filter(a=>a.types.includes(t)).map(a=>`<label class="check${p.addons.includes(a.id)?' on':''}"><input type="checkbox" data-act="addon" data-id="${p.id}" data-a="${a.id}"${p.addons.includes(a.id)?' checked':''}><span class="grow">${esc(a.name)}</span><b>${money(a.price)}</b></label>`).join('')||'<p class="hint" style="margin:0">Для цього туру optional fun немає</p>'}</div>
+   ${ADDONS.some(a=>a.types.includes(t))&&ON.addonLink?'<p class="hint" style="margin:8px 0 0;font-size:12px">Коли ви додаєте активність, учасник автоматично отримує окреме Stripe-посилання на неї.</p>':''}</div>
+
+  <div class="blk"><h3>Їде разом з</h3>
+   ${p.buddies.length?`<div class="buddies">${p.buddies.map(b=>{const x=byId(b);return `<span class="buddy"><span class="spill S-${x.status}"><i></i></span><button class="go" data-act="open" data-id="${x.id}">${esc(nm(x))} · ${x.order}</button><button class="x" data-act="unbuddy" data-id="${p.id}" data-b="${x.id}" aria-label="Прибрати">${ic('x')}</button></span>`}).join('')}</div>`:'<p class="hint" style="margin:0 0 10px">Їде сам(а)</p>'}
+   <div class="row-form"><select class="in" id="buddySel"><option value="">Додати учасника з цього ж туру…</option>${mates.map(x=>`<option value="${x.id}">${esc(nm(x))} · ${x.order}</option>`).join('')}</select><button class="btn" data-act="addBuddy" data-id="${p.id}">Додати</button></div>
+  </div>
+
+  ${refBy||p.code||refP?`<div class="blk"><h3>Промокоди</h3>${p.code?`<p style="margin:0">Промокод амбасадора: <span class="code">${p.code}</span></p>`:''}${refBy?`<p style="margin:${p.code?'8px':'0'} 0 0">Прийшов(ла) за промокодом <span class="code">${refBy.code}</span> від <button class="linkish" data-act="open" data-id="${refBy.id}">${esc(nm(refBy))}</button></p>`:''}${refP?`<p style="margin:0">Прийшов(ла) від партнера <button class="linkish" data-act="openP" data-id="${refP.id}">${esc(refP.name)}</button> · <span class="code">${refP.code}</span></p>`:''}</div>`:''}
+
+  <div class="blk"><h3>Нотатка для гідів</h3><input class="in" data-gnote="${p.id}" value="${esc(p.gnote)}" placeholder="Ранній виїзд, запізнення, пропущена активність…"></div>
+
+  <div class="blk"><h3>Нотатки для команди</h3>
+   <div class="notes">${p.notes.map(n=>`<div class="nt"><small>${esc(n.by)} · ${fd(n.date)}</small>${esc(n.text)}</div>`).join('')||'<p class="hint" style="margin:0">Нотаток ще немає</p>'}</div>
+   <textarea class="in" id="noteIn" rows="2" placeholder="Підказка для колег…" style="min-height:60px"></textarea>
+   <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" data-act="addNote" data-id="${p.id}">Додати нотатку</button></div></div>
+
+  <div class="blk"><h3>Задачі</h3>
+   ${p.tasks.map((x,k)=>`<label class="task${x.done?' done':''}"><input type="checkbox" data-act="task" data-id="${p.id}" data-k="${k}"${x.done?' checked':''}><span>${esc(x.text)}</span></label>`).join('')||'<p class="hint" style="margin:0 0 8px">Задач немає</p>'}
+   <div class="row-form" style="margin-top:8px"><input class="in" id="taskIn" placeholder="Нестандартний запит або нагадування"><button class="btn" data-act="addTask" data-id="${p.id}">Додати</button></div></div>
+
+  <div class="meta-line"><span>Бронювання створено ${fd(p.created)}, 2026</span><span>Джерело: ${esc(p.source)}</span></div>
+ </div>`;
+ dr.classList.add('on');$('#scrim').classList.add('on');
+}
+
+/* ================= drawer: partner ================= */
+function renderPartner(){
+ const dr=$('#drawer');const x=byP(S.openP);const cls=STAGE_CLS[x.stage];
+ const bks=pBookings(x);const rev=bks.reduce((s,p)=>s+paid(p),0);
+ const side=(sd,label)=>`<div><h3>${label}</h3>${x.deliv.filter(d=>d.side===sd).map(d=>{const k=x.deliv.indexOf(d);return `<label class="task${d.done?' done':''}"><input type="checkbox" data-pdel="${k}"${d.done?' checked':''}><span>${esc(d.text)}</span></label>`}).join('')||'<p class="hint" style="margin:0 0 6px">Nothing yet</p>'}
+   <div class="row-form" style="margin-top:6px"><input class="in" id="pdIn-${sd}" placeholder="Add a promise"><button class="btn sm" data-act="pdAddItem" data-side="${sd}">Add</button></div></div>`;
+ const od=x.next&&x.next.date<TODAY_S;
+ dr.innerHTML=`
+ <div class="dr-head ${cls}">
+  <div class="dr-row"><span class="order">${esc(x.type)}</span><select class="stsel ${cls}" data-act="pStage" data-id="${x.id}" aria-label="Stage">${Object.entries(STAGES).map(([k,v])=>`<option value="${k}"${k===x.stage?' selected':''}>${v}</option>`).join('')}</select><span class="sp"></span><button class="xbtn" data-act="close" aria-label="Close">${ic('x')}</button></div>
+  <h2 class="dr-name">${esc(x.name)}</h2>
+  <div class="meta-line"><span>${esc(x.city)}</span><span>${esc(x.contact)}</span><span>Owner: ${esc(x.owner)}</span><span>Since ${fd(x.since)}</span></div>
+ </div>
+ <div class="dr-body">
+  <div class="blk"><h3>The exchange</h3><div class="ex-cols"><div class="ex-col"><h4>They give us</h4>${esc(x.give)}</div><div class="ex-col"><h4>We give them</h4>${esc(x.get)}</div></div></div>
+  <div class="blk"><h3>Next step</h3>
+   ${x.next?`<p style="margin:0 0 8px"><b>${esc(x.next.text)}</b> <span class="sub ${od?'due-red':''}">· ${fd(x.next.date)}${od?' · overdue':''}</span></p>`:''}
+   <div class="row-form"><input class="in" id="nsText" placeholder="What happens next" value="" style="flex:2 1 200px"><input class="in" id="nsDate" type="date" value="${addDays(TODAY_S,7)}"><button class="btn" data-act="pNext">Set next step</button></div></div>
+  <div class="blk"><h3>Promises</h3><div class="ex-cols">${side('them','What they promised')}${side('us','What we promised')}</div></div>
+  <div class="blk"><h3>Results</h3>
+   ${x.code?`<p style="margin:0 0 8px">Promo code <span class="code">${esc(x.code)}</span> · <b>${bks.length}</b> bookings · ${money(rev)} paid so far</p>
+    ${bks.length?`<div class="buddies">${bks.map(p=>`<span class="buddy"><span class="spill S-${p.status}"><i></i></span><button class="go" data-act="open" data-id="${p.id}">${esc(nm(p))} · ${p.order}</button></span>`).join('')}</div>`:'<p class="hint" style="margin:0">No bookings with this code yet</p>'}`
+   :`<p class="hint" style="margin:0 0 8px">This partner has no promo code. Add one to count bookings they bring automatically.</p><div class="row-form"><input class="in" id="pCode" placeholder="e.g. PARTNER10" style="text-transform:uppercase"><button class="btn" data-act="pSetCode">Create code</button></div>`}
+  </div>
+  <div class="blk"><h3>Notes</h3>
+   <div class="notes">${x.notes.map(n=>`<div class="nt"><small>${esc(n.by)} · ${fd(n.date)}</small>${esc(n.text)}</div>`).join('')||'<p class="hint" style="margin:0">No notes yet</p>'}</div>
+   <textarea class="in" id="pNoteIn" rows="2" placeholder="What was agreed, how it went…" style="min-height:60px"></textarea>
+   <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" data-act="pNote">Add note</button></div></div>
+ </div>`;
+ dr.classList.add('on');$('#scrim').classList.add('on');
+}
+
+/* ================= modals ================= */
+function openNew(pref={}){
+ $('#modalCard').innerHTML=`<h2>Нове бронювання</h2>
+  <div class="grid2"><label class="fl">Ім'я<input class="in" id="nF" value="${esc(pref.first||'')}"></label><label class="fl">Прізвище<input class="in" id="nL" value="${esc(pref.last||'')}"></label></div>
+  <div class="grid2"><label class="fl">Телефон<input class="in" id="nP" placeholder="+1 (…)"></label><label class="fl">Telegram<input class="in" id="nT" value="${esc(pref.tg||'')}" placeholder="@нік"></label></div>
+  <label class="fl">Тур і дати<select class="in" id="nD">${DEPS.filter(d=>phase(d)==='soon').map(d=>`<option value="${d.id}">${esc(TYPES[d.type].name)} · ${drange(d)}</option>`).join('')}</select></label>
+  <label class="fl">Джерело<select class="in" id="nS">${SOURCES.map(s=>`<option${s===(pref.source||'Сайт')?' selected':''}>${s}</option>`).join('')}</select></label>
+  <p class="hint" style="margin:0">Номер замовлення і менеджер присвоюються автоматично. Бронювання з сайту створювати вручну не потрібно, вони з'являються самі після оплати завдатку.</p>
+  <div class="foot"><button class="btn" data-act="mClose">Скасувати</button><button class="btn pri" data-act="mCreate">Створити</button></div>`;
+ $('#modal').classList.add('on');S.pendingConv=pref.conv||null;setTimeout(()=>$('#nF').focus(),50);
+}
+function openNewPartner(){
+ $('#modalCard').innerHTML=`<h2>New partner</h2>
+  <div class="grid2"><label class="fl">Name<input class="in" id="npN" placeholder="Company or creator"></label><label class="fl">Type<select class="in" id="npT">${PTYPES.map(t=>`<option>${t}</option>`).join('')}</select></label></div>
+  <div class="grid2"><label class="fl">City / where<input class="in" id="npC" placeholder="e.g. Las Vegas, NV"></label><label class="fl">Contact<input class="in" id="npK" placeholder="Name, email or @handle"></label></div>
+  <label class="fl">They give us<textarea class="in" id="npG" rows="2" style="min-height:56px" placeholder="e.g. group rate, promotion to their students"></textarea></label>
+  <label class="fl">We give them<textarea class="in" id="npW" rows="2" style="min-height:56px" placeholder="e.g. 20+ customers per season, logo on our site"></textarea></label>
+  <div class="grid2"><label class="fl">Owner<select class="in" id="npO">${MGR.map(m=>`<option${m===S.me?' selected':''}>${m}</option>`).join('')}</select></label><label class="fl">Stage<select class="in" id="npS">${Object.entries(STAGES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></label></div>
+  <div class="foot"><button class="btn" data-act="mClose">Cancel</button><button class="btn pri" data-act="npCreate">Create</button></div>`;
+ $('#modal').classList.add('on');setTimeout(()=>$('#npN').focus(),50);
+}
+function openText(title,text){
+ $('#modalCard').innerHTML=`<h2>${esc(title)}</h2><p class="hint" style="margin:0">Текст виділено. Скопіюйте його (Ctrl+C або ⌘C) і вставте в Excel чи Google Sheets.</p><textarea class="in" id="tOut" rows="10" readonly style="font-family:var(--f-mono);font-size:12px">${esc(text)}</textarea><div class="foot"><button class="btn pri" data-act="mClose">Готово</button></div>`;
+ $('#modal').classList.add('on');setTimeout(()=>{const t=$('#tOut');t.focus();t.select()},50);
+}
+
+/* ================= render ================= */
+function renderNav(){
+ const unread=CONVS.reduce((s,x)=>s+x.unread,0);const nc=P.filter(p=>p.status==='nocontact').length;
+ $('#nav').innerHTML='<div class="nav-label">Робочий простір</div>'+NAV.map(n=>`<button class="${S.view===n.id?'on':''}" data-act="nav" data-v="${n.id}">${ic(n.ic)}<span>${n.label}</span>${n.id==='chat'&&unread?`<span class="badge">${unread}</span>`:''}${n.id==='crm'&&nc?`<span class="badge" title="Не зв'язались">${nc}</span>`:''}</button>`).join('');
+}
+function render(){
+ renderNav();
+ $('#pageTitle').textContent=NAV.find(x=>x.id===S.view).ua;
+ const sim=`<button class="btn" data-act="simDeposit">${ic('bolt')}${S.view==='auto'?'Simulate website deposit':'Симулювати оплату завдатку на сайті'}</button>`;
+ $('#topActions').innerHTML=S.view==='crm'?`<div class="row-form">${sim}<button class="btn pri" data-act="new">${ic('plus')}Нове бронювання</button></div>`:(S.view==='home'||S.view==='auto')?sim:'';
+ $('#view').innerHTML=V[S.view]();
+ if(S.view==='crm')renderRows();
+ if(S.view==='lists')renderList();
+ if(S.view==='chat'){const m=$('#msgs');if(m)m.scrollTop=m.scrollHeight}
+}
+function refresh(){
+ const y=window.scrollY;const dy=$('.dr-body')?$('.dr-body').scrollTop:0;
+ if(S.view==='crm'){renderRows();renderNav()}else if(S.view==='lists'){renderList();renderNav()}else render();
+ renderDrawer();window.scrollTo(0,y);const b=$('.dr-body');if(b)b.scrollTop=dy;
+}
+function go(v){S.view=v;document.body.classList.remove('nav-open');$('#scrim').classList.toggle('on',!!(S.open||S.openP));try{history.replaceState(null,'','#'+v)}catch(e){}render();window.scrollTo(0,0)}
+const openPerson=id=>{S.openP=null;S.open=id;S.arm=null;renderDrawer();const b=$('.dr-body');if(b)b.scrollTop=0};
+const openPartner=id=>{S.open=null;S.openP=id;renderDrawer();const b=$('.dr-body');if(b)b.scrollTop=0};
+
+/* ================= events ================= */
+document.addEventListener('click',e=>{
+ const tr=e.target.closest('tr[data-open]');
+ if(tr&&!e.target.closest('select,button,a,input')){openPerson(tr.dataset.open);return}
+ const tp=e.target.closest('tr[data-openp]');
+ if(tp&&!e.target.closest('select,button,a,input')){openPartner(tp.dataset.openp);return}
+ if(e.target.id==='scrim'){S.open=null;S.openP=null;renderDrawer();document.body.classList.remove('nav-open');return}
+ if(e.target.id==='modal'){$('#modal').classList.remove('on');return}
+ const el=e.target.closest('[data-act]');
+ if(!el||el.tagName==='SELECT'||el.tagName==='INPUT')return;
+ const a=el.dataset.act,id=el.dataset.id,p=id?byId(id):null;
+ if(a!=='delPay'&&S.arm){S.arm=null}
+ switch(a){
+  case 'nav': go(el.dataset.v);break;
+  case 'goStatus': S.f={q:'',type:'',dep:'',source:'',status:el.dataset.s};go('crm');break;
+  case 'scrollQueue': $('#queue').scrollIntoView({behavior:'smooth',block:'start'});break;
+  case 'homeTours': S.homeTours=el.dataset.k;render();break;
+  case 'openList': S.list.dep=el.dataset.dep;S.list.type=depOf(el.dataset.dep).type;go('lists');break;
+  case 'open': openPerson(id);break;
+  case 'openP': openPartner(id);break;
+  case 'close': S.open=null;S.openP=null;renderDrawer();break;
+  case 'clearF': S.f={q:'',type:'',dep:'',source:'',status:''};render();break;
+  case 'chip': S.f.status=S.f.status===el.dataset.s?'':el.dataset.s;$('#fst').value=S.f.status;renderRows();break;
+  case 'simDeposit':{const np=simDeposit();if(np&&S.view==='crm'){S.f={q:'',type:'',dep:'',source:'',status:''};render()}else refresh();break}
+  case 'contacted': markContacted(p);toast(nm(p)+': позначено «зв\'язались». Статус: «'+STATUS[p.status]+'»');refresh();break;
+  case 'confirmPay': confirmPayment(p,+el.dataset.k);refresh();break;
+  case 'stripePaid': stripePaid(p,+el.dataset.k);refresh();break;
+  case 'delPay':{const key=id+':'+el.dataset.k;if(S.arm===key){const x=p.payments.splice(+el.dataset.k,1)[0];S.arm=null;toast((x.link?'Stripe-посилання на ':'Оплату ')+money(x.amt)+(x.link?' скасовано':' видалено'))}else{S.arm=key;toast('Натисніть ще раз, щоб підтвердити')}refresh();break}
+  case 'addPay':{const amt=parseFloat($('#payAmt').value),m=$('#payM').value,f=$('#payFor').value;if(!(amt>0)){toast('Вкажіть суму оплати');break}
+   if(m==='stripe'){sendStripeLink(p,f,amt);toast('Stripe-посилання на '+money(amt)+' надіслано учаснику в Telegram')}
+   else if(m==='zelle'){const dup=p.payments.some(x=>!x.ok&&!x.link&&x.for===f&&x.amt===amt);p.payments.push({amt,method:'Zelle',ok:false,date:TODAY_S,by:S.me,for:f});toast(dup?'Увага: така сама оплата вже чекає підтвердження. Якщо це помилка, видаліть зайву.':'Оплату Zelle відправлено на перевірку фінансовій команді')}
+   else{p.payments.push({amt,method:'Готівка',ok:true,date:TODAY_S,by:S.me,conf:S.me,for:f});const r=afterConfirm(p,p.payments[p.payments.length-1]);toast('Оплату готівкою додано'+(r.st?'. '+r.st:''))}
+   refresh();break}
+  case 'addBuddy':{const b=byId($('#buddySel').value);if(!b){toast('Оберіть учасника');break}p.buddies.push(b.id);b.buddies.push(p.id);refresh();break}
+  case 'unbuddy':{const b=byId(el.dataset.b);p.buddies=p.buddies.filter(x=>x!==b.id);b.buddies=b.buddies.filter(x=>x!==p.id);refresh();break}
+  case 'addNote':{const t=$('#noteIn').value.trim();if(!t)break;p.notes.push({by:S.me,text:t,date:TODAY_S});refresh();break}
+  case 'addTask':{const t=$('#taskIn').value.trim();if(!t)break;p.tasks.push({text:t,done:false});refresh();break}
+  case 'new': openNew();break;
+  case 'mClose': $('#modal').classList.remove('on');break;
+  case 'mCreate':{const f=$('#nF').value.trim(),l=$('#nL').value.trim();if(!f){toast('Вкажіть ім\'я');break}
+   const max=Math.max(...P.map(x=>+x.order.slice(3)));
+   const np=mkPerson(f,l,$('#nD').value,{status:'new',created:TODAY_S,source:$('#nS').value,order:'RV-'+(max+1)});
+   np.phone=$('#nP').value.trim()||'—';np.tg=$('#nT').value.trim()||'—';np.email='—';
+   P.push(np);if(S.pendingConv){const c=CONVS.find(x=>x.id===S.pendingConv);c.pid=np.id;c.name=nm(np)}
+   $('#modal').classList.remove('on');toast('Створено '+np.order+', менеджер '+np.assignee);S.open=np.id;refresh();break}
+  case 'conv':{const c=CONVS.find(x=>x.id===id);c.unread=0;S.chat.active=id;S.chat.threaded=true;render();break}
+  case 'backConv': S.chat.threaded=false;render();break;
+  case 'quick':{const c=CONVS.find(x=>x.id===S.chat.active);const pp=c&&c.pid?byId(c.pid):null;const t=$('#msgIn');t.value=fillVars(SCRIPT(el.dataset.sid).text,pp);t.focus();break}
+  case 'send':{const t=$('#msgIn').value.trim();if(!t)break;const c=CONVS.find(x=>x.id===S.chat.active);c.msgs.push({from:'mgr',by:S.me,text:t,t:nowT()});c.time='Щойно';
+   const pp=c.pid?byId(c.pid):null;let extraMsg='';if(pp&&pp.status==='nocontact'&&ON.contacted){markContacted(pp,'chat');extraMsg='Статус «не зв\'язались» змінено автоматично.'}
+   render();$('#msgIn').focus();if(extraMsg)toast(extraMsg);break}
+  case 'simulate':{const c=CONVS.find(x=>!x.pid)||CONVS[1];c.msgs.push({from:'client',text:pick(['Ще одне питання: чи є знижка, якщо їдемо вдвох?','Чи можна оплатити решту двома частинами?','What time is the meeting point on day 1?']),t:nowT()});c.unread++;c.time='Щойно';CONVS.splice(CONVS.indexOf(c),1);CONVS.unshift(c);render();toast('Нове повідомлення в Telegram від '+c.name);break}
+  case 'leadFromChat':{const c=CONVS.find(x=>x.id===S.chat.active);const [f,...l]=c.name.split(' ');openNew({first:f,last:l.join(' '),tg:c.handle,source:'Telegram',conv:c.id});break}
+  case 'toggleFr':{const r=document.querySelector(`tr[data-fr="${id}"]`);r.hidden=!r.hidden;break}
+  case 'payout':{const r=ambData().find(x=>x.a.id===id);p.paidOut=r.earned;toast('Виплату '+money(r.due)+' для '+nm(p)+' позначено');render();break}
+  case 'copy': copyText(el.dataset.t,'Скопійовано');break;
+  case 'gcEdit': S.gcEdit=id;render();setTimeout(()=>{const i=$('#gcIn');if(i)i.focus()},30);break;
+  case 'gcCancel': S.gcEdit=null;render();break;
+  case 'gcSave':{depOf(id).chat=$('#gcIn').value.trim();S.gcEdit=null;toast('Посилання збережено');render();break}
+  case 'xAdd':{const n=$('#xName').value.trim(),u=$('#xUrl').value.trim();if(!n||!u){toast('Вкажіть назву і посилання');break}S.extraChats.push({id:'x'+Date.now(),name:n,url:u});render();break}
+  case 'xDel': S.extraChats=S.extraChats.filter(x=>x.id!==id);render();break;
+  case 'scCat': S.scCat=el.dataset.c;render();break;
+  case 'scNew': S.scriptEdit='new';render();break;
+  case 'scEdit': S.scriptEdit=id;render();window.scrollTo(0,0);break;
+  case 'scCancel': S.scriptEdit=null;render();break;
+  case 'scSave':{const t=$('#scT').value.trim(),x=$('#scX').value.trim();if(!t||!x){toast('Add a title and text');break}
+   const obj={title:t,cat:$('#scC').value.trim()||'Other',text:x,quick:$('#scQ2').checked};
+   if(S.scriptEdit==='new')SCRIPTS.unshift(Object.assign({id:'s'+Date.now()},obj));else Object.assign(SCRIPT(S.scriptEdit),obj);
+   S.scriptEdit=null;toast('Script saved');render();break}
+  case 'scDel':{const i=SCRIPTS.findIndex(s=>s.id===id);if(i>-1)SCRIPTS.splice(i,1);render();break}
+  case 'pdEdit': S.paydocEdit=+el.dataset.k;render();break;
+  case 'pdCancel': S.paydocEdit=null;render();break;
+  case 'pdSave':{const k=+el.dataset.k;S.paydocs[k]={h:$('#pdH').value.trim()||'Untitled',t:$('#pdT').value.trim()};S.paydocEdit=null;toast('Saved');render();break}
+  case 'pdDel': S.paydocs.splice(+el.dataset.k,1);S.paydocEdit=null;render();break;
+  case 'pdAdd': S.paydocs.push({h:'New section',t:''});S.paydocEdit=S.paydocs.length-1;render();break;
+  case 'copyList': copyText(listTable('\t'),'Таблицю скопійовано. Вставте її в Excel або Google Sheets',true);break;
+  case 'dlList': downloadCSV();break;
+  case 'pStageF': S.pStage=S.pStage===el.dataset.s?'':el.dataset.s;render();break;
+  case 'newP': openNewPartner();break;
+  case 'npCreate':{const n=$('#npN').value.trim();if(!n){toast('Add a name');break}
+   const x={id:'pt'+Date.now(),name:n,type:$('#npT').value,city:$('#npC').value.trim()||'—',contact:$('#npK').value.trim()||'—',owner:$('#npO').value,stage:$('#npS').value,since:TODAY_S,code:'',
+    give:$('#npG').value.trim()||'—',get:$('#npW').value.trim()||'—',deliv:[],next:{text:'First call',date:addDays(TODAY_S,3)},notes:[]};
+   PARTNERS.unshift(x);$('#modal').classList.remove('on');toast(n+' added');render();openPartner(x.id);break}
+  case 'pdAddItem':{const x=byP(S.openP);const sd=el.dataset.side;const t=$('#pdIn-'+sd).value.trim();if(!t)break;x.deliv.push({side:sd,text:t,done:false});refresh();break}
+  case 'pNext':{const x=byP(S.openP);const t=$('#nsText').value.trim(),d=$('#nsDate').value;if(!t||!d){toast('Add the step and a date');break}x.next={text:t,date:d};toast('Next step set for '+fd(d));refresh();break}
+  case 'pNote':{const x=byP(S.openP);const t=$('#pNoteIn').value.trim();if(!t)break;x.notes.push({by:S.me,text:t,date:TODAY_S});refresh();break}
+  case 'pSetCode':{const x=byP(S.openP);const c=$('#pCode').value.trim().toUpperCase().replace(/\s+/g,'');if(!c){toast('Type a code');break}x.code=c;toast('Code '+c+' created. Bookings with it will be counted automatically.');refresh();break}
+ }
+});
+document.addEventListener('change',e=>{
+ const t=e.target;
+ if(t.dataset.rule){ON[t.dataset.rule]=t.checked;toast(RULE[t.dataset.rule].title+(t.checked?': on':': off. This step is now manual.'));render();return}
+ if(t.dataset.pdel!==undefined){const x=byP(S.openP);x.deliv[+t.dataset.pdel].done=t.checked;refresh();return}
+ if(t.dataset.gnote){byId(t.dataset.gnote).gnote=t.value.trim();toast('Нотатку для гідів збережено');if(S.open)renderDrawer();return}
+ if(t.dataset.act==='rowStatus'||t.dataset.act==='drStatus'){const p=byId(t.dataset.id);p.status=t.value;if(t.value!=='nocontact')p.hrs=null;else if(p.hrs==null)p.hrs=0;refresh();return}
+ if(t.dataset.act==='pStage'){byP(t.dataset.id).stage=t.value;refresh();return}
+ if(t.dataset.act==='chMgr'){byId(t.dataset.id).assignee=t.value;toast('Менеджер: '+t.value);refresh();return}
+ if(t.dataset.act==='addon'){const p=byId(t.dataset.id);const a=t.dataset.a;
+  if(!t.checked&&p.payments.some(x=>x.for===a&&x.ok)){t.checked=true;toast('За цю активність вже є оплата. Спершу оформіть повернення.');return}
+  if(t.checked){p.addons.push(a);if(ON.addonLink){sendStripeLink(p,a,ADD[a].price,true);logA('addonLink',`Stripe link for ${ADD[a].name} (${money(ADD[a].price)}) sent to ${nm(p)}`,p.id);toast(ADD[a].name+' додано. Stripe-посилання на '+money(ADD[a].price)+' надіслано автоматично.')}else toast(ADD[a].name+' додано. Надішліть посилання на оплату вручну.')}
+  else{p.addons=p.addons.filter(x=>x!==a);p.payments=p.payments.filter(x=>!(x.for===a&&!x.ok))}
+  refresh();return}
+ if(t.dataset.act==='task'){byId(t.dataset.id).tasks[+t.dataset.k].done=t.checked;refresh();return}
+ if(t.dataset.act==='chDep'){const p=byId(t.dataset.id);p.dep=t.value;const ty=typeOf(p);const drop=p.addons.filter(a=>!ADD[a].types.includes(ty));p.addons=p.addons.filter(a=>ADD[a].types.includes(ty));p.payments=p.payments.filter(x=>!(drop.includes(x.for)&&!x.ok));p.payments.forEach(x=>{if(drop.includes(x.for))x.for='tour'});toast(nm(p)+': '+TYPES[ty].name+', '+drange(depOf(p.dep)));refresh();return}
+ switch(t.id){
+  case 'payFor':{const p=byId(S.open);const f=t.value;const v=itemLeft(p,f)-itemPend(p,f);$('#payAmt').value=v>0?v:'';break}
+  case 'ftype': S.f.type=t.value;S.f.dep='';$('#depWrap').hidden=!t.value;$('#fdep').innerHTML=depOptions(t.value,'');renderRows();break;
+  case 'fdep': S.f.dep=t.value;renderRows();break;
+  case 'fsrc': S.f.source=t.value;renderRows();break;
+  case 'fst': S.f.status=t.value;renderRows();break;
+  case 'ltype': S.list.type=t.value;S.list.dep='';render();break;
+  case 'ldep': S.list.dep=t.value;renderList();break;
+  case 'ldebt': S.list.debt=t.checked;renderList();break;
+  case 'llost': S.list.lost=t.checked;renderList();break;
+  case 'adminSw': S.admin=t.checked;S.gcEdit=null;render();break;
+  case 'gcPast': S.gcPast=t.checked;render();break;
+  case 'pTypeF': S.pType=t.value;render();break;
+  case 'assignee': CONVS.find(x=>x.id===S.chat.active).assignee=t.value;toast('Чат передано: '+t.value);break;
+ }
+});
+document.addEventListener('input',e=>{
+ if(e.target.id==='fq'){S.f.q=e.target.value;renderRows()}
+ if(e.target.id==='scSearch'){S.scQ=e.target.value;const pos=e.target.selectionStart;render();const i=$('#scSearch');if(i){i.focus();try{i.setSelectionRange(pos,pos)}catch(err){}}}
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){if($('#modal').classList.contains('on'))$('#modal').classList.remove('on');else if(S.open||S.openP){S.open=null;S.openP=null;renderDrawer()}}
+ if(e.key==='Enter'&&!e.shiftKey&&e.target.id==='msgIn'){e.preventDefault();$('[data-act="send"]').click()}
+ if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.gnote){e.target.blur()}
+});
+$('#menuBtn').innerHTML=ic('menu');
+$('#menuBtn').addEventListener('click',()=>{document.body.classList.toggle('nav-open');$('#scrim').classList.toggle('on',document.body.classList.contains('nav-open'))});
+
+function copyText(t,msg,big){
+ const fall=()=>{if(big)openText('Скопіюйте таблицю',t);else toast('Не вдалося скопіювати автоматично')};
+ try{navigator.clipboard.writeText(t).then(()=>toast(msg),fall)}catch(err){fall()}
+}
+let DL=null;
+try{if(window.claude&&window.claude.use)window.claude.use('downloads').then(n=>{DL=n}).catch(()=>{})}catch(e){}
+function downloadCSV(){
+ const L=S.list;const name='ride-vibe_'+(L.dep||L.type||'all')+'.csv';
+ if(!DL){try{const b=new Blob(['\uFEFF'+listTable(',')],{type:'text/csv;charset=utf-8'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Файл '+name+' збережено')}catch(e){toast('Не вдалося зберегти файл. Скористайтесь «Копіювати для Excel»')}return}
+ DL.save({filename:name,data:'﻿'+listTable(',')}).then(()=>toast('Файл '+name+' збережено')).catch(err=>{if(err&&err.code==='declined')return;toast('Не вдалося зберегти файл. Скористайтесь «Копіювати для Excel»')});
+}
+
+/* ================= boot ================= */
+(function(){const h=(location.hash||'').slice(1);if(NAV.some(n=>n.id===h))S.view=h;render()})();
+
+</script>
+
+</body>
+</html>
